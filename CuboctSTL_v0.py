@@ -233,29 +233,19 @@ def arraypolar(meshobjects, r_axis, num):
 
 def arraypolar2(m_obj, r_axis, num):
     # This is currently working. Not sure why. Doesn't seem to want to let you copy mesh objects
-    #array_objects = np.zeros(num, dtype=[('normals', '<f4', (3,)), ('vectors', '<f4', (3, 3)), ('attr', '<u2', (1,))])
-    array_objects = np.recarray(num, dtype= mesh.Mesh.dtype)
+    # array_objects = np.zeros(num, dtype=[('normals', '<f4', (3,)), ('vectors', '<f4', (3, 3)), ('attr', '<u2', (1,))])
+    # array_objects = np.recarray(num, dtype= mesh.Mesh.dtype)
+    array_objects = list()
+    array_objects.append(m_obj)
 
-    print 'start'
-    print m_obj.dtype
-    print 'mid'
+    for i in range(num):
+        obj = mesh.Mesh(m_obj.data.copy())
+        obj.rotate(r_axis, math.radians((360 / num) * i))
+        array_objects.append(obj)
 
-    stuff = mesh.Mesh(m_obj)
-    # thing = [tuple(row) for row in m_obj]
-    # meshobject.rotate(r_axis, math.radians((360 / num)))
-    array_objects[0] = mesh.Mesh(m_obj)
-    print array_objects[0]
-    print 'end'
-    print mesh.Mesh.dtype
-
-
-
-    for i in range(0, num):
-        obj = mesh.Mesh(m_obj.copy())
-        print obj
-        array_objects[i]= obj
-        array_objects[i].rotate(r_axis, math.radians((360 / num) * i))
     return array_objects
+def
+
 
 
 def main():
@@ -298,15 +288,14 @@ def main():
         strut(strut_width, chamfer_factor, pitch),
         strut(strut_width, chamfer_factor, pitch)
     ]
-
     #vstruts[1].rotate([0, 0, 0.5], math.radians(90))
     #vstruts[2].rotate([0, 0, 0.5], math.radians(180))
     #vstruts[3].rotate([0, 0, 0.5], math.radians(270))
 
     strut1 = strut(strut_width, chamfer_factor, pitch)
-    test = arraypolar(vstruts, [0, 0, 0.5], 4)
+    #test = arraypolar(vstruts, [0, 0, 0.5], 4)
 
-    test2 = arraypolar2(strut1.data, [0, 0, 0.5], 4)
+    test2 = arraypolar2(strut1, [0, 0, 0.5], 4)
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
@@ -315,10 +304,15 @@ def main():
         axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
     for thing in vstruts:
         axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
+    for thing in test2:
+        axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
+
 
     # Auto scale to the mesh size
     scale = vnodes[1].points.flatten(-1)
     axes.auto_scale_xyz(scale, scale, scale)
+
+    print mesh.Mesh.dtype
     # Show the plot to the screen
     pyplot.show()
 
