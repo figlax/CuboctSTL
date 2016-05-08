@@ -4,10 +4,84 @@ import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
-def node(strutwidth, chamfactor):
+def translate_mesh(meshobj, tvect):
+    vects = meshobj.vectors
+    for vsi,vectset in enumerate(vects):
+        for vi,vector in enumerate(vectset):
+            meshobj.vectors[vsi][vi] = vector+tvect
 
-    #strutwidth = 2;
-    #chamfactor = 2 + 2/3;
+def rotation_matrix( axis, theta):
+    '''
+    Generate a rotation matrix to Rotate the matrix over the given axis by
+    the given theta (angle)
+
+    Uses the Euler-Rodrigues formula for fast rotations:
+    `https://en.wikipedia.org/wiki/Euler%E2%80%93Rodrigues_formula`_
+
+    :param numpy.array axis: Axis to rotate over (x, y, z)
+    :param float theta: Rotation angle in radians, use `math.radians` to
+    convert degrees to radians if needed.
+    '''
+    axis = np.asarray(axis)
+    # No need to rotate if there is no actual rotation
+    if not axis.any():
+        return np.zeros((3, 3))
+
+    theta = np.asarray(theta)
+    theta /= 2.
+
+    axis = axis / math.sqrt( np.dot( axis, axis))
+
+    a = math.cos(theta)
+    b, c, d = - axis * math.sin(theta)
+    angles = a, b, c, d
+    powers = [x * y for x in angles for y in angles]
+    aa, ab, ac, ad = powers[0:4]
+    ba, bb, bc, bd = powers[4:8]
+    ca, cb, cc, cd = powers[8:12]
+    da, db, dc, dd = powers[12:16]
+
+    return np.array([
+        [aa + bb - cc - dd, 2 * (bc + ad), 2 * (bd - ac)],
+        [2 * (bc - ad), aa + cc - bb - dd, 2 * (cd + ab)],
+        [2 * (bd + ac), 2 * (cd - ab), aa + dd - bb - cc]
+    ])
+
+
+def rotate(object, axis, theta):
+    '''
+    Rotate the matrix over the given axis by the given theta (angle)
+
+    Uses the `rotation_matrix`_ in the background.
+
+    :param numpy.array axis: Axis to rotate over (x, y, z)
+    :param float theta: Rotation angle in radians, use `math.radians` to
+    convert degrees to radians if needed.
+    :param numpy.array point: Rotation point so manual translation is not
+    required
+    '''
+
+
+    rot_matrix = rotation_matrix(axis, theta)
+    object = object.dot(rot_matrix)
+    def _rotate(matrix):
+        return matrix.dot(rot_matrix)
+
+    for i in range(3):
+        object = _rotate(object)
+    return object
+
+def arraypolar(meshobjects, r_axis, num):
+    # This function takes an array of mesh objects that will be arrayed meshobjects
+    # r_axis is the axis of rotation
+    # num is the number of items in the array mesh objects
+
+    for i in range(0, num):
+        meshobjects[i].rotate(r_axis, math.radians((360/num) * i))
+    return meshobjects
+
+
+def node(strutwidth, chamfactor):
 
     # Calculate commonly used values for geometry definition
     chamheight = strutwidth/ chamfactor
@@ -35,7 +109,7 @@ def node(strutwidth, chamfactor):
     topcap['vectors'][3] = np.array([point1, point5, point6])
     topcap['vectors'][4] = np.array([point1, point6, point7])
     topcap['vectors'][5] = np.array([point1, point7, point8])
-    top = mesh.Mesh(topcap)
+
 
     # Define Geometry of the chamfered sides
     chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
@@ -68,11 +142,11 @@ def node(strutwidth, chamfactor):
     chamfersides['vectors'][5] = np. array([point5, point6s, point6])
     chamfersides['vectors'][6] = np. array([point7, point7s, point8s])
     chamfersides['vectors'][7] = np. array([point7, point8s, point8])
-    chamfersides_mesh = mesh.Mesh(chamfersides)
+
 
 
     # Define the rectangular sides
-    sides = np.zeros(4, dtype=mesh.Mesh.dtype)
+    sides = np.zeros(8, dtype=mesh.Mesh.dtype)
 
     point1b = [halfw, l_3, 0]
     point2b = [l_3, halfw,0]
@@ -81,6 +155,14 @@ def node(strutwidth, chamfactor):
     sides['vectors'][1] = np. array([point1s, point2b, point2s])
     sides['vectors'][2] = np. array([point8s, point8b, point1b])
     sides['vectors'][3] = np. array([point8s, point1b, point1s])
+
+    sides['vectors'][4] = rotate(np.array([point1s, point1b, point2b]), [0, 0, 0.5], math.radians(90))
+    sides['vectors'][5] = rotate(np.array([point1s, point1b, point2b]), [0, 0, 0.5], math.radians(90))
+    sides['vectors'][6] = rotate(np.array([point1s, point1b, point2b]), [0, 0, 0.5], math.radians(90))
+    sides['vectors'][7] = rotate(np.array([point1s, point1b, point2b]), [0, 0, 0.5], math.radians(90))
+
+
+
     sidesubmesh1 = mesh.Mesh(sides.copy())
     sidesubmesh2 = mesh.Mesh(sides.copy())
     sidesubmesh3 = mesh.Mesh(sides.copy())
@@ -89,74 +171,15 @@ def node(strutwidth, chamfactor):
     sidesubmesh3.rotate([0.0, 0.0, 0.5], math.radians(180))
     sidesubmesh4.rotate([0.0, 0.0, 0.5], math.radians(270))
 
+
     # Make final mesh for the open node geometry
-    finalnodemesh = mesh.Mesh(np.concatenate([
-        chamfersides_mesh.data.copy(),
-        top.data.copy(),
-        sidesubmesh1.data.copy(),
-        sidesubmesh2.data.copy(),
-        sidesubmesh3.data.copy(),
-        sidesubmesh4.data.copy(),
+    finaldata = np.concatenate([
+        topcap,
+        chamfersides,
+        sides
+    ])
 
-    ]))
-
-    return finalnodemesh
-
-def strut(strutwidth, chamfactor,  pitch):
-    # Define connection points on bottom node
-    # Geometry Parameters
-    #strutwidth = 2
-    #chamfactor = 2 + 2 / 3
-    # Calculate commonly used values for geometry definition
-    chamheight = strutwidth / chamfactor
-    halfw = strutwidth / 2
-    halfp = pitch / 2
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2) # height of top cap
-    l_2 = strutwidth / 2 + chamheight # horizontal position of points on topcap
-    hs = l_2  # height of side points of node
-    l_3 = l_2 + strutwidth * np.cos(np.pi / 4)  # horizontal position of points
-
-    point2_copy = [l_2, halfw, h]
-    point3_copy = [l_2, -halfw, h]
-    point2s_copy = [l_3, halfw, hs]
-    point3s_copy = [l_3, -halfw, hs]
-    # new points to attach to on side node
-    point2n = [halfp-h, halfw, halfp - l_2]
-    point3n = [halfp-h, -halfw, halfp - l_2]
-    point2sn = [halfp-hs, halfw, halfp - l_3]
-    point3sn = [halfp-hs, -halfw, halfp - l_3]
-
-
-
-    singlestrut_geo = np.zeros(8, dtype=mesh.Mesh.dtype)
-    singlestrut_geo['vectors'][0] = np.array([point2_copy, point2n, point2sn])
-    singlestrut_geo['vectors'][1] = np.array([point2_copy, point2sn, point2s_copy])
-    singlestrut_geo['vectors'][2] = np.array([point3_copy, point3n, point3sn])
-    singlestrut_geo['vectors'][3] = np.array([point3_copy, point3sn, point3s_copy])
-    singlestrut_geo['vectors'][4] = np.array([point2_copy, point2n, point3n])
-    singlestrut_geo['vectors'][5] = np.array([point2_copy, point3n, point3_copy])
-    singlestrut_geo['vectors'][6] = np.array([point2s_copy, point2sn, point3sn])
-    singlestrut_geo['vectors'][7] = np.array([point2s_copy, point3sn, point3s_copy])
-
-    finalsinglestrut = mesh.Mesh(singlestrut_geo)
-    return finalsinglestrut
-
-
-def translate(meshobj, tvect):
-    vects = meshobj.vectors
-    for vsi,vectset in enumerate(vects):
-        for vi,vector in enumerate(vectset):
-            meshobj.vectors[vsi][vi] = vector+tvect
-
-
-# You really should be able to pass mesh objects into a function, but it seems to not work
-def arraypolar(meshobject, r_axis, num):  #This is currently working. Not sure why. 'Mesh' object has no attribute copy
-    array_objects = np.zeros(num, dtype=mesh.Mesh.dtype)
-    meshobject.rotate(r_axis, math.radians((360/num)))
-    for i in range(0, num):
-        array_objects[i] = meshobject
-        array_objects[i].rotate(r_axis, math.radians((360/num) * i))
-    return array_objects
+    return finaldata
 
 def main():
     pitch = 30
@@ -175,20 +198,20 @@ def main():
 
 
     # Place and orient all the nodes (can probably be done more efficiently)
-    vnodes[1].rotate([0.5, 0, 0], math.radians(180))
-    translate(vnodes[1], np.array([0, 0, 1])*pitch)  # top node
+    #vnodes[1].rotate([0.5, 0, 0], math.radians(180))
+    translate_mesh(vnodes[1], np.array([0, 0, 1]) * pitch)  # top node
 
-    vnodes[2].rotate([0.5, 0, 0], math.radians(90))
-    translate(vnodes[2], np.array([0, -0.5, 0.5])*pitch)
+    #vnodes[2].rotate([0.5, 0, 0], math.radians(90))
+    translate_mesh(vnodes[2], np.array([0, -0.5, 0.5]) * pitch)
 
-    vnodes[3].rotate([0.5, 0, 0], math.radians(270))
-    translate(vnodes[3], np.array([0, 0.5, 0.5]) * pitch)
+   # vnodes[3].rotate([0.5, 0, 0], math.radians(270))
+    translate_mesh(vnodes[3], np.array([0, 0.5, 0.5]) * pitch)
 
-    vnodes[4].rotate([0, 0.5, 0], math.radians(90))
-    translate(vnodes[4], np.array([0.5, 0, 0.5]) * pitch)
+    #vnodes[4].rotate([0, 0.5, 0], math.radians(90))
+    translate_mesh(vnodes[4], np.array([0.5, 0, 0.5]) * pitch)
 
-    vnodes[5].rotate([0, 0.5, 0], math.radians(270))
-    translate(vnodes[5], np.array([-0.5, 0, 0.5]) * pitch)
+    #vnodes[5].rotate([0, 0.5, 0], math.radians(270))
+    translate_mesh(vnodes[5], np.array([-0.5, 0, 0.5]) * pitch)
 
     # Define voxel struts using strut function
 
@@ -199,14 +222,14 @@ def main():
         strut(strut_width, chamfer_factor, pitch)
     ]
 
-    vstruts[1].rotate([0, 0, 0.5], math.radians(90))
-    vstruts[2].rotate([0, 0, 0.5], math.radians(180))
-    vstruts[3].rotate([0, 0, 0.5], math.radians(270))
+    #vstruts[1].rotate([0, 0, 0.5], math.radians(90))
+    #vstruts[2].rotate([0, 0, 0.5], math.radians(180))
+    #vstruts[3].rotate([0, 0, 0.5], math.radians(270))
 
-    strut1 = strut(strut_width, chamfer_factor, pitch)
+    #strut1 = strut(strut_width, chamfer_factor, pitch)
+    test = arraypolar(vstruts, [0, 0, 0.5], 4)
 
-    test = arraypolar(strut1.data, [0, 0, 0.5], 4)
-
+    #test2 = arraypolar2(strut1, [0, 0, 0.5], 4)
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
