@@ -4,6 +4,10 @@ import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
+def voxel(strudwidth, chamfactor, pitch):
+
+
+
 def node(strutwidth, chamfactor):
 
     #strutwidth = 2;
@@ -222,30 +226,28 @@ def rotate(object, axis, theta, point=None):
         object.vectors[:, i] = _rotate(object.vectors[:, i])
 
 
-def arraypolar(meshobjects, r_axis, num):
+def arraypolar(meshobjects_list, r_axis, num):
     # This function takes an array of mesh objects that will be arrayed meshobjects
     # r_axis is the axis of rotation
     # num is the number of items in the array mesh objects
 
     for i in range(0, num):
-        meshobjects[i].rotate(r_axis, math.radians((360/num) * i))
-    return meshobjects
+        meshobjects_list[i].rotate(r_axis, math.radians((360 / num) * i))
+    return meshobjects_list
 
-def arraypolar2(m_obj, r_axis, num):
-    # This is currently working. Not sure why. Doesn't seem to want to let you copy mesh objects
-    # array_objects = np.zeros(num, dtype=[('normals', '<f4', (3,)), ('vectors', '<f4', (3, 3)), ('attr', '<u2', (1,))])
-    # array_objects = np.recarray(num, dtype= mesh.Mesh.dtype)
+def arraypolar2(m_obj, r_axis, num, rotation_point=None):
     array_objects = list()
     array_objects.append(m_obj)
 
     for i in range(num):
         obj = mesh.Mesh(m_obj.data.copy())
-        obj.rotate(r_axis, math.radians((360 / num) * i))
+        obj.rotate(r_axis, math.radians((360 / num) * i), rotation_point)
         array_objects.append(obj)
-
     return array_objects
-def
 
+def combine_meshes(*args):
+    combined_data = np.concatenate([mesh.data for mesh in args])
+    return mesh.Mesh(combined_data)
 
 
 def main():
@@ -282,30 +284,32 @@ def main():
 
     # Define voxel struts using strut function
 
-    vstruts = [
-        strut(strut_width, chamfer_factor, pitch),
-        strut(strut_width, chamfer_factor, pitch),
-        strut(strut_width, chamfer_factor, pitch),
-        strut(strut_width, chamfer_factor, pitch)
-    ]
-    #vstruts[1].rotate([0, 0, 0.5], math.radians(90))
-    #vstruts[2].rotate([0, 0, 0.5], math.radians(180))
-    #vstruts[3].rotate([0, 0, 0.5], math.radians(270))
 
     strut1 = strut(strut_width, chamfer_factor, pitch)
-    #test = arraypolar(vstruts, [0, 0, 0.5], 4)
+    bottom_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+    strut1.rotate([1, 0, 0], math.radians(180))
+    translate(strut1, np.array([0, 0, 1])*pitch)
+    top_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
 
-    test2 = arraypolar2(strut1, [0, 0, 0.5], 4)
+    strut2 = strut(strut_width, chamfer_factor, pitch)
+    strut2.rotate([1, 0, 0], math.radians(90))
+    translate(strut2, np.array([0, -0.5, 0.5]) * pitch)
+    side_struts = arraypolar2(strut2, [0, 0, 0.5], 4)
+
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
     # Render the geometry
     for thing in vnodes:
         axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
-    for thing in vstruts:
+    for thing in bottom_struts:
         axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
-    for thing in test2:
+    for thing in top_struts:
         axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
+    for thing in side_struts:
+        axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
+
+    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(strut1.vectors))
 
 
     # Auto scale to the mesh size
