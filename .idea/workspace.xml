@@ -20,14 +20,14 @@
     <favorites_list name="CuboctSTL" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3683829">
+    <splitter split-orientation="horizontal" split-proportion="0.16572858">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
           <file leaf-file-name="Test.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Test.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+                <state relative-caret-position="204">
+                  <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
                   <folding>
                     <element signature="e#0#20#0" expanded="true" />
                   </folding>
@@ -42,14 +42,11 @@
           <file leaf-file-name="CuboctSTL_v0.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="125">
-                  <caret line="296" column="53" selection-start-line="257" selection-start-column="4" selection-end-line="296" selection-end-column="53" />
+                <state relative-caret-position="542">
+                  <caret line="305" column="4" selection-start-line="305" selection-start-column="4" selection-end-line="305" selection-end-column="4" />
                   <folding>
                     <element signature="e#0#20#0" expanded="true" />
-                    <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-                    <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-                    <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-                    <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+                    <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -92,10 +89,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="y" value="1" />
-    <option name="width" value="3198" />
-    <option name="height" value="1734" />
+    <option name="x" value="-1932" />
+    <option name="y" value="-12" />
+    <option name="width" value="1944" />
+    <option name="height" value="1104" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -123,45 +120,10 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CuboctSTL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CuboctSTL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CuboctSTL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="latticegen" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CuboctSTL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CuboctSTL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CuboctSTL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -430,18 +392,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="1" width="3198" height="1734" extended-state="6" />
+    <frame x="-1932" y="-12" width="1944" height="1104" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12025518" sideWeight="0.47074708" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.027113238" sideWeight="0.4604966" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22665535" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26521164" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15033717" sideWeight="0.49465242" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21655329" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14992025" sideWeight="0.73516643" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12025518" sideWeight="0.52925295" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14992025" sideWeight="0.26483357" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -501,10 +463,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -547,10 +506,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -593,10 +549,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -632,10 +585,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -671,10 +621,7 @@
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -710,10 +657,7 @@
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -749,10 +693,7 @@
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -788,10 +729,7 @@
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -872,8 +810,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+        <state relative-caret-position="204">
+          <caret line="34" column="35" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -882,14 +820,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="296" column="53" selection-start-line="257" selection-start-column="4" selection-end-line="296" selection-end-column="53" />
+        <state relative-caret-position="542">
+          <caret line="305" column="4" selection-start-line="305" selection-start-column="4" selection-end-line="305" selection-end-column="4" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1462772091303" expanded="true" signature="1931:2147" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10029:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="10047:10473" placeholder="..." />
-            <marker date="1462772091303" expanded="true" signature="11063:11097" placeholder="..." />
+            <marker date="1462831428284" expanded="true" signature="3537:3753" placeholder="..." />
           </folding>
         </state>
       </provider>

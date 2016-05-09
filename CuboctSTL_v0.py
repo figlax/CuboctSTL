@@ -4,7 +4,48 @@ import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
-def voxel(strudwidth, chamfactor, pitch):
+def voxel(strut_width, chamfer_factor, pitch):
+    # Define list of voxel nodes
+    vnodes = [
+        node(strut_width, chamfer_factor),
+        node(strut_width, chamfer_factor),
+        node(strut_width, chamfer_factor),
+        node(strut_width, chamfer_factor),
+        node(strut_width, chamfer_factor),
+        node(strut_width, chamfer_factor)
+    ]
+    # Place and orient all the nodes (can probably be done more efficiently)
+    vnodes[1].rotate([0.5, 0, 0], math.radians(180))
+    translate(vnodes[1], np.array([0, 0, 1]) * pitch)  # top node
+    vnodes[2].rotate([0.5, 0, 0], math.radians(90))
+    translate(vnodes[2], np.array([0, -0.5, 0.5]) * pitch)
+    vnodes[3].rotate([0.5, 0, 0], math.radians(270))
+    translate(vnodes[3], np.array([0, 0.5, 0.5]) * pitch)
+    vnodes[4].rotate([0, 0.5, 0], math.radians(90))
+    translate(vnodes[4], np.array([0.5, 0, 0.5]) * pitch)
+    vnodes[5].rotate([0, 0.5, 0], math.radians(270))
+    translate(vnodes[5], np.array([-0.5, 0, 0.5]) * pitch)
+
+    # Define voxel struts using strut function
+
+    strut1 = strut(strut_width, chamfer_factor, pitch)
+    bottom_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+    strut1.rotate([1, 0, 0], math.radians(180))
+    translate(strut1, np.array([0, 0, 1]) * pitch)
+    top_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+
+    strut2 = strut(strut_width, chamfer_factor, pitch)
+    strut2.rotate([1, 0, 0], math.radians(90))
+    translate(strut2, np.array([0, -0.5, 0.5]) * pitch)
+    side_struts = arraypolar2(strut2, [0, 0, 0.5], 4)
+
+    combined_geometry = bottom_struts + top_struts + side_struts +vnodes
+
+
+    return combine_meshes(*combined_geometry)
+
+
+
 
 
 
@@ -93,7 +134,6 @@ def node(strutwidth, chamfactor):
     sidesubmesh3.rotate([0.0, 0.0, 0.5], math.radians(180))
     sidesubmesh4.rotate([0.0, 0.0, 0.5], math.radians(270))
 
-
     # Make final mesh for the open node geometry
     finalnodemesh = mesh.Mesh(np.concatenate([
         chamfersides_mesh.data.copy(),
@@ -102,16 +142,12 @@ def node(strutwidth, chamfactor):
         sidesubmesh2.data.copy(),
         sidesubmesh3.data.copy(),
         sidesubmesh4.data.copy(),
-
     ]))
-
     return finalnodemesh
 
 def strut(strutwidth, chamfactor,  pitch):
     # Define connection points on bottom node
     # Geometry Parameters
-    #strutwidth = 2
-    #chamfactor = 2 + 2 / 3
     # Calculate commonly used values for geometry definition
     chamheight = strutwidth / chamfactor
     halfw = strutwidth / 2
@@ -131,8 +167,6 @@ def strut(strutwidth, chamfactor,  pitch):
     point2sn = [halfp-hs, halfw, halfp - l_3]
     point3sn = [halfp-hs, -halfw, halfp - l_3]
 
-
-
     singlestrut_geo = np.zeros(8, dtype=mesh.Mesh.dtype)
     singlestrut_geo['vectors'][0] = np.array([point2_copy, point2n, point2sn])
     singlestrut_geo['vectors'][1] = np.array([point2_copy, point2sn, point2s_copy])
@@ -145,7 +179,6 @@ def strut(strutwidth, chamfactor,  pitch):
 
     finalsinglestrut = mesh.Mesh(singlestrut_geo)
     return finalsinglestrut
-
 
 def translate(meshobj, tvect):
     vects = meshobj.vectors
@@ -246,8 +279,35 @@ def arraypolar2(m_obj, r_axis, num, rotation_point=None):
     return array_objects
 
 def combine_meshes(*args):
-    combined_data = np.concatenate([mesh.data for mesh in args])
+    combined_data = np.concatenate([m_obj.data for m_obj in args])
     return mesh.Mesh(combined_data)
+
+def lattice_array(voxel_mesh, pitch, x, y, z):
+    lattice = list()
+    lattice.append(voxel, mesh)
+
+    if x == 1:
+        x = 1
+    else:
+        for i in range(x):
+            new_obj = mesh.Mesh(voxel_mesh.data.copy())  #Make a copy of the voxel
+            translate(new_obj, [1, 0, 0]*pitch*i)
+            lattice.append(new_obj)
+    if y == 1:
+        y = 1
+    else:
+        xline = lattice
+        for j in range(y):
+            for thing in xline:
+                new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
+                translate(new_obj, [1, 0, 0] * pitch * j)
+                lattice.append(new_obj)
+
+    
+
+
+
+
 
 
 def main():
@@ -255,65 +315,16 @@ def main():
     strut_width = 2
     chamfer_factor = 2.666
 
-    # Define list of voxel nodes
-    vnodes = [
-        node(strut_width, chamfer_factor),
-        node(strut_width, chamfer_factor),
-        node(strut_width, chamfer_factor),
-        node(strut_width, chamfer_factor),
-        node(strut_width, chamfer_factor),
-        node(strut_width, chamfer_factor)
-    ]
-
-
-    # Place and orient all the nodes (can probably be done more efficiently)
-    vnodes[1].rotate([0.5, 0, 0], math.radians(180))
-    translate(vnodes[1], np.array([0, 0, 1])*pitch)  # top node
-
-    vnodes[2].rotate([0.5, 0, 0], math.radians(90))
-    translate(vnodes[2], np.array([0, -0.5, 0.5])*pitch)
-
-    vnodes[3].rotate([0.5, 0, 0], math.radians(270))
-    translate(vnodes[3], np.array([0, 0.5, 0.5]) * pitch)
-
-    vnodes[4].rotate([0, 0.5, 0], math.radians(90))
-    translate(vnodes[4], np.array([0.5, 0, 0.5]) * pitch)
-
-    vnodes[5].rotate([0, 0.5, 0], math.radians(270))
-    translate(vnodes[5], np.array([-0.5, 0, 0.5]) * pitch)
-
-    # Define voxel struts using strut function
-
-
-    strut1 = strut(strut_width, chamfer_factor, pitch)
-    bottom_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
-    strut1.rotate([1, 0, 0], math.radians(180))
-    translate(strut1, np.array([0, 0, 1])*pitch)
-    top_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
-
-    strut2 = strut(strut_width, chamfer_factor, pitch)
-    strut2.rotate([1, 0, 0], math.radians(90))
-    translate(strut2, np.array([0, -0.5, 0.5]) * pitch)
-    side_struts = arraypolar2(strut2, [0, 0, 0.5], 4)
+    one_voxel = voxel(strut_width, chamfer_factor, pitch)
 
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
-    # Render the geometry
-    for thing in vnodes:
-        axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
-    for thing in bottom_struts:
-        axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
-    for thing in top_struts:
-        axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
-    for thing in side_struts:
-        axes.add_collection3d(mplot3d.art3d.Poly3DCollection(thing.vectors))
-
-    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(strut1.vectors))
+    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(one_voxel.vectors))
 
 
     # Auto scale to the mesh size
-    scale = vnodes[1].points.flatten(-1)
+    scale = one_voxel.points.flatten(-1)
     axes.auto_scale_xyz(scale, scale, scale)
 
     print mesh.Mesh.dtype
