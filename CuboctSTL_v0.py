@@ -30,6 +30,7 @@ def voxel(strut_width, chamfer_factor, pitch):
 
     strut1 = strut(strut_width, chamfer_factor, pitch)
     bottom_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+    print bottom_struts
     strut1.rotate([1, 0, 0], math.radians(180))
     translate(strut1, np.array([0, 0, 1]) * pitch)
     top_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
@@ -41,18 +42,49 @@ def voxel(strut_width, chamfer_factor, pitch):
 
     combined_geometry = bottom_struts + top_struts + side_struts +vnodes
 
+    return combine_meshes(*combined_geometry)
+
+def closed_voxel(strut_width, chamfer_factor, pitch):
+    # Define list of voxel nodes
+    vnodes = [
+        capped_node(strut_width, chamfer_factor),
+        capped_node(strut_width, chamfer_factor),
+        capped_node(strut_width, chamfer_factor),
+        capped_node(strut_width, chamfer_factor),
+        capped_node(strut_width, chamfer_factor),
+        capped_node(strut_width, chamfer_factor)
+    ]
+    # Place and orient all the nodes (can probably be done more efficiently)
+    vnodes[1].rotate([0.5, 0, 0], math.radians(180))
+    translate(vnodes[1], np.array([0, 0, 1]) * pitch)  # top node
+    vnodes[2].rotate([0.5, 0, 0], math.radians(90))
+    translate(vnodes[2], np.array([0, -0.5, 0.5]) * pitch)
+    vnodes[3].rotate([0.5, 0, 0], math.radians(270))
+    translate(vnodes[3], np.array([0, 0.5, 0.5]) * pitch)
+    vnodes[4].rotate([0, 0.5, 0], math.radians(90))
+    translate(vnodes[4], np.array([0.5, 0, 0.5]) * pitch)
+    vnodes[5].rotate([0, 0.5, 0], math.radians(270))
+    translate(vnodes[5], np.array([-0.5, 0, 0.5]) * pitch)
+
+    # Define voxel struts using strut function
+
+    strut1 = strut(strut_width, chamfer_factor, pitch)
+    bottom_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+    strut1.rotate([1, 0, 0], math.radians(180))
+    translate(strut1, np.array([0, 0, 1]) * pitch)
+    top_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+
+    strut2 = strut(strut_width, chamfer_factor, pitch)
+    strut2.rotate([1, 0, 0], math.radians(90))
+    translate(strut2, np.array([0, -0.5, 0.5]) * pitch)
+    side_struts = arraypolar2(strut2, [0, 0, 0.5], 4)
+
+    combined_geometry = bottom_struts + top_struts + side_struts +vnodes
 
     return combine_meshes(*combined_geometry)
 
 
-
-
-
-
 def node(strutwidth, chamfactor):
-
-    #strutwidth = 2;
-    #chamfactor = 2 + 2/3;
 
     # Calculate commonly used values for geometry definition
     chamheight = strutwidth/ chamfactor
@@ -145,6 +177,118 @@ def node(strutwidth, chamfactor):
     ]))
     return finalnodemesh
 
+
+def capped_node(strutwidth, chamfactor):
+
+    # Calculate commonly used values for geometry definition
+    chamheight = strutwidth/ chamfactor
+    halfw = strutwidth / 2
+
+    # Define geometry of the top cap
+    topcap = np.zeros(6, dtype=mesh.Mesh.dtype)
+    # topcap['vectors'][0] = np.array([[halfw, l_2, h],
+                                       #  [l_2, halfw, h],
+                                        #[0, 0, h]])
+    # Calculate the height and halflength of top octogonal cap
+    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2)
+    l_2 = strutwidth / 2 + chamheight
+    point1 = [halfw, l_2, h]
+    point2 = [l_2, halfw, h]
+    point3 = [l_2, -halfw, h]
+    point4 = [halfw, -l_2, h]
+    point5 = [-halfw, -l_2, h]
+    point6 = [-l_2, -halfw, h]
+    point7 = [-l_2, halfw, h]
+    point8 = [-halfw, l_2, h]
+    topcap['vectors'][0] = np.array([point1, point2, point3])
+    topcap['vectors'][1] = np.array([point1, point3, point4])
+    topcap['vectors'][2] = np.array([point1, point4, point5])
+    topcap['vectors'][3] = np.array([point1, point5, point6])
+    topcap['vectors'][4] = np.array([point1, point6, point7])
+    topcap['vectors'][5] = np.array([point1, point7, point8])
+    top = mesh.Mesh(topcap)
+
+    # Define Geometry of the chamfered sides
+    chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
+
+    hs = l_2 # height of side points of node
+    l_3 = l_2 + strutwidth*np.cos(np.pi/4) # horizontal position of points
+    point1s = [halfw, l_3, hs]
+    point2s = [l_3, halfw, hs]
+    point3s = [l_3, -halfw, hs]
+    point4s = [halfw, -l_3, hs]
+    point5s = [-halfw, -l_3, hs]
+    point6s = [-l_3, -halfw, hs]
+    point7s = [-l_3, halfw, hs]
+    point8s = [-halfw, l_3, hs]
+    s_point = [
+        [halfw, l_3, hs],
+        [l_3, halfw, hs],
+        [l_3, -halfw, hs],
+        [halfw, -l_3, hs],
+        [-halfw, -l_3, hs],
+        [-l_3, -halfw, hs],
+        [-l_3, halfw, hs],
+        [-halfw, l_3, hs]
+    ]
+    chamfersides['vectors'][0] = np. array([point1, point1s, point2s])
+    chamfersides['vectors'][1] = np. array([point1, point2s, point2])
+    chamfersides['vectors'][2] = np. array([point3, point3s, point4s])
+    chamfersides['vectors'][3] = np. array([point3, point4s, point4])
+    chamfersides['vectors'][4] = np. array([point5, point5s, point6s])
+    chamfersides['vectors'][5] = np. array([point5, point6s, point6])
+    chamfersides['vectors'][6] = np. array([point7, point7s, point8s])
+    chamfersides['vectors'][7] = np. array([point7, point8s, point8])
+    chamfersides_mesh = mesh.Mesh(chamfersides)
+
+
+    # Define the rectangular sides
+    sides = np.zeros(4, dtype=mesh.Mesh.dtype)
+
+    point1b = [halfw, l_3, 0]
+    point2b = [l_3, halfw,0]
+    point8b = [-halfw, l_3, 0]
+    sides['vectors'][0] = np. array([point1s, point1b, point2b])
+    sides['vectors'][1] = np. array([point1s, point2b, point2s])
+    sides['vectors'][2] = np. array([point8s, point8b, point1b])
+    sides['vectors'][3] = np. array([point8s, point1b, point1s])
+    sidesubmesh1 = mesh.Mesh(sides.copy())
+    sidesubmesh2 = mesh.Mesh(sides.copy())
+    sidesubmesh3 = mesh.Mesh(sides.copy())
+    sidesubmesh4 = mesh.Mesh(sides.copy())
+    sidesubmesh2.rotate([0.0, 0.0, 0.5], math.radians(90))
+    sidesubmesh3.rotate([0.0, 0.0, 0.5], math.radians(180))
+    sidesubmesh4.rotate([0.0, 0.0, 0.5], math.radians(270))
+
+    # Make the bottom cap (to make closed node in voxel)
+    bottomcap = np.zeros(6, dtype=mesh.Mesh.dtype)
+    point3b = [l_3, -halfw, 0]
+    point4b = [halfw, -l_3, 0]
+    point5b = [-halfw, -l_3, 0]
+    point6b = [-l_3, -halfw, 0]
+    point7b = [-l_3, halfw, 0]
+    bottomcap['vectors'][0] = np.array([point1b, point2b, point3b])
+    bottomcap['vectors'][1] = np.array([point1b, point3b, point4b])
+    bottomcap['vectors'][2] = np.array([point1b, point4b, point5b])
+    bottomcap['vectors'][3] = np.array([point1b, point5b, point6b])
+    bottomcap['vectors'][4] = np.array([point1b, point6b, point7b])
+    bottomcap['vectors'][5] = np.array([point1b, point7b, point8b])
+    bottom = mesh.Mesh(bottomcap)
+
+
+    # Make final mesh for the open node geometry
+    finalnodemesh = mesh.Mesh(np.concatenate([
+        chamfersides_mesh.data.copy(),
+        top.data.copy(),
+        sidesubmesh1.data.copy(),
+        sidesubmesh2.data.copy(),
+        sidesubmesh3.data.copy(),
+        sidesubmesh4.data.copy(),
+        bottom.data.copy()
+    ]))
+    return finalnodemesh
+
+
 def strut(strutwidth, chamfactor,  pitch):
     # Define connection points on bottom node
     # Geometry Parameters
@@ -179,6 +323,7 @@ def strut(strutwidth, chamfactor,  pitch):
 
     finalsinglestrut = mesh.Mesh(singlestrut_geo)
     return finalsinglestrut
+
 
 def translate(meshobj, tvect):
     vects = meshobj.vectors
@@ -268,19 +413,20 @@ def arraypolar(meshobjects_list, r_axis, num):
         meshobjects_list[i].rotate(r_axis, math.radians((360 / num) * i))
     return meshobjects_list
 
+
 def arraypolar2(m_obj, r_axis, num, rotation_point=None):
     array_objects = list()
-    array_objects.append(m_obj)
-
     for i in range(num):
         obj = mesh.Mesh(m_obj.data.copy())
         obj.rotate(r_axis, math.radians((360 / num) * i), rotation_point)
         array_objects.append(obj)
     return array_objects
 
+
 def combine_meshes(*args):
     combined_data = np.concatenate([m_obj.data for m_obj in args])
     return mesh.Mesh(combined_data)
+
 
 def lattice_array(voxel_mesh, pitch, x, y, z):
     lattice = [voxel_mesh]  # Assume want list structure
@@ -323,15 +469,12 @@ def lattice_array(voxel_mesh, pitch, x, y, z):
     return combine_meshes(*lattice)
 
 
-
-
-
 def main():
     pitch = 30
     strut_width = 2
     chamfer_factor = 2.666
 
-    one_voxel = voxel(strut_width, chamfer_factor, pitch)
+    one_voxel = closed_voxel(strut_width, chamfer_factor, pitch)
     one_lattice = lattice_array(one_voxel, pitch, 3, 3, 3)
 
     # Create a new plot
@@ -343,11 +486,10 @@ def main():
     scale = one_voxel.points.flatten(-1)
     axes.auto_scale_xyz(scale, scale, scale)
 
-   
     # Show the plot to the screen
     pyplot.show()
 
-    one_lattice.save('test_lattice.stl')
+    one_voxel.save('test_lattice.stl')
     print 'Code ran'
 
 main()
