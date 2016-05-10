@@ -283,28 +283,44 @@ def combine_meshes(*args):
     return mesh.Mesh(combined_data)
 
 def lattice_array(voxel_mesh, pitch, x, y, z):
-    lattice = list()
-    lattice.append(voxel, mesh)
+    lattice = [voxel_mesh]  # Assume want list structure
 
-    if x == 1:
+    # array in x direction
+    if x == 1:  # Don't need to do anything if x dimension is 1
         x = 1
     else:
         for i in range(x):
-            new_obj = mesh.Mesh(voxel_mesh.data.copy())  #Make a copy of the voxel
-            translate(new_obj, [1, 0, 0]*pitch*i)
-            lattice.append(new_obj)
-    if y == 1:
+            new_obj = mesh.Mesh(voxel_mesh.data.copy())  # Make a copy of the voxel
+            translate(new_obj, np.array([1, 0, 0]) * pitch* i)
+            lattice += [new_obj]
+    # array in y direction
+    if y == 1:  # Don't need to do anything if y dimension is 1
         y = 1
     else:
         xline = lattice
         for j in range(y):
-            for thing in xline:
-                new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
-                translate(new_obj, [1, 0, 0] * pitch * j)
-                lattice.append(new_obj)
+            if j == 0:  # Don't need to make a copy of the original voxel line
+                j = 0
+            else:
+                for thing in xline:
+                    new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
+                    translate(new_obj, np.array([0, 1, 0]) * pitch * j)
+                    lattice = lattice + [new_obj]  # Can't use += because modifies copy too and creates an infinite loop
+    # array in z direction
+    if z == 1:  # Don't need to do anything if the z dimension is 1
+        z = 1
+    else:
+        xyplane = lattice
+        for k in range(z):
+            if k == 0:  # Don't need to make a copy of the original voxel plane
+                k == 0
+            else:
+                for thing in xyplane:
+                    new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
+                    translate(new_obj, np.array([0, 0, 1]) * pitch * k)
+                    lattice = lattice + [new_obj]  # Can't use += because modifies copy too and creates an infinite loop
 
-    
-
+    return combine_meshes(*lattice)
 
 
 
@@ -316,22 +332,22 @@ def main():
     chamfer_factor = 2.666
 
     one_voxel = voxel(strut_width, chamfer_factor, pitch)
+    one_lattice = lattice_array(one_voxel, pitch, 3, 3, 3)
 
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
-    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(one_voxel.vectors))
-
+    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(one_lattice.vectors))
 
     # Auto scale to the mesh size
     scale = one_voxel.points.flatten(-1)
     axes.auto_scale_xyz(scale, scale, scale)
 
-    print mesh.Mesh.dtype
+   
     # Show the plot to the screen
     pyplot.show()
 
-
-
+    one_lattice.save('test_lattice.stl')
+    print 'Code ran'
 
 main()
