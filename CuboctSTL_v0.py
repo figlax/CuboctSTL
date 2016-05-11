@@ -29,16 +29,15 @@ def voxel(strut_width, chamfer_factor, pitch):
     # Define voxel struts using strut function
 
     strut1 = strut(strut_width, chamfer_factor, pitch)
-    bottom_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
-    print bottom_struts
+    bottom_struts = arraypolar2(strut1, [0, 0, 1], 4)
     strut1.rotate([1, 0, 0], math.radians(180))
     translate(strut1, np.array([0, 0, 1]) * pitch)
-    top_struts = arraypolar2(strut1, [0, 0, 0.5], 4)
+    top_struts = arraypolar2(strut1, [0, 0, 1], 4)
 
     strut2 = strut(strut_width, chamfer_factor, pitch)
     strut2.rotate([1, 0, 0], math.radians(90))
     translate(strut2, np.array([0, -0.5, 0.5]) * pitch)
-    side_struts = arraypolar2(strut2, [0, 0, 0.5], 4)
+    side_struts = arraypolar2(strut2, [0, 0, 1], 4)
 
     combined_geometry = bottom_struts + top_struts + side_struts +vnodes
 
@@ -425,7 +424,7 @@ def arraypolar2(m_obj, r_axis, num, rotation_point=None):
 
 def combine_meshes(*args):
     combined_data = np.concatenate([m_obj.data for m_obj in args])
-    return mesh.Mesh(combined_data)
+    return mesh.Mesh(combined_data, remove_duplicate_polygons = True)
 
 
 def lattice_array(voxel_mesh, pitch, x, y, z):
@@ -436,9 +435,12 @@ def lattice_array(voxel_mesh, pitch, x, y, z):
         x = 1
     else:
         for i in range(x):
-            new_obj = mesh.Mesh(voxel_mesh.data.copy())  # Make a copy of the voxel
-            translate(new_obj, np.array([1, 0, 0]) * pitch* i)
-            lattice += [new_obj]
+            if i == 0:
+                i = 0
+            else:
+                new_obj = mesh.Mesh(voxel_mesh.data.copy())  # Make a copy of the voxel
+                translate(new_obj, np.array([1, 0, 0]) * pitch* i)
+                lattice += [new_obj]
     # array in y direction
     if y == 1:  # Don't need to do anything if y dimension is 1
         y = 1
@@ -489,7 +491,7 @@ def main():
     # Show the plot to the screen
     pyplot.show()
 
-    one_voxel.save('test_lattice.stl')
+    one_lattice.save('test_lattice.stl')
     print 'Code ran'
 
 main()
