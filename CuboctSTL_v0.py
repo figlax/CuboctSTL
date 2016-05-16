@@ -105,12 +105,13 @@ def node(strutwidth, chamfactor):
     point6 = [-l_2, -halfw, h]
     point7 = [-l_2, halfw, h]
     point8 = [-halfw, l_2, h]
-    topcap['vectors'][0] = np.array([point1, point2, point3])
-    topcap['vectors'][1] = np.array([point1, point3, point4])
-    topcap['vectors'][2] = np.array([point1, point4, point5])
-    topcap['vectors'][3] = np.array([point1, point5, point6])
-    topcap['vectors'][4] = np.array([point1, point6, point7])
-    topcap['vectors'][5] = np.array([point1, point7, point8])
+    # Define with right hand rule to assure outward facing normal
+    topcap['vectors'][0] = np.array([point1, point3, point2])
+    topcap['vectors'][1] = np.array([point1, point4, point3])
+    topcap['vectors'][2] = np.array([point1, point5, point4])
+    topcap['vectors'][3] = np.array([point1, point6, point5])
+    topcap['vectors'][4] = np.array([point1, point7, point6])
+    topcap['vectors'][5] = np.array([point1, point8, point7])
     top = mesh.Mesh(topcap)
 
     # Define Geometry of the chamfered sides
@@ -136,14 +137,14 @@ def node(strutwidth, chamfactor):
         [-l_3, halfw, hs],
         [-halfw, l_3, hs]
     ]
-    chamfersides['vectors'][0] = np. array([point1, point1s, point2s])
-    chamfersides['vectors'][1] = np. array([point1, point2s, point2])
-    chamfersides['vectors'][2] = np. array([point3, point3s, point4s])
-    chamfersides['vectors'][3] = np. array([point3, point4s, point4])
-    chamfersides['vectors'][4] = np. array([point5, point5s, point6s])
-    chamfersides['vectors'][5] = np. array([point5, point6s, point6])
-    chamfersides['vectors'][6] = np. array([point7, point7s, point8s])
-    chamfersides['vectors'][7] = np. array([point7, point8s, point8])
+    chamfersides['vectors'][0] = np. array([point1, point2s, point1s])
+    chamfersides['vectors'][1] = np. array([point1, point2, point2s])
+    chamfersides['vectors'][2] = np. array([point3, point4s, point3s])
+    chamfersides['vectors'][3] = np. array([point3, point4, point4s])
+    chamfersides['vectors'][4] = np. array([point5, point6s, point5s])
+    chamfersides['vectors'][5] = np. array([point5, point6, point6s])
+    chamfersides['vectors'][6] = np. array([point7, point8s, point7s])
+    chamfersides['vectors'][7] = np. array([point7, point8, point8s])
     chamfersides_mesh = mesh.Mesh(chamfersides)
 
 
@@ -153,10 +154,10 @@ def node(strutwidth, chamfactor):
     point1b = [halfw, l_3, 0]
     point2b = [l_3, halfw,0]
     point8b = [-halfw, l_3, 0]
-    sides['vectors'][0] = np. array([point1s, point1b, point2b])
-    sides['vectors'][1] = np. array([point1s, point2b, point2s])
-    sides['vectors'][2] = np. array([point8s, point8b, point1b])
-    sides['vectors'][3] = np. array([point8s, point1b, point1s])
+    sides['vectors'][0] = np. array([point1s, point2b, point1b])
+    sides['vectors'][1] = np. array([point1s, point2s, point2b])
+    sides['vectors'][2] = np. array([point8s, point1b, point8b])
+    sides['vectors'][3] = np. array([point8s, point1s, point1b])
     sidesubmesh1 = mesh.Mesh(sides.copy())
     sidesubmesh2 = mesh.Mesh(sides.copy())
     sidesubmesh3 = mesh.Mesh(sides.copy())
@@ -178,6 +179,12 @@ def node(strutwidth, chamfactor):
 
 
 def capped_node(strutwidth, chamfactor):
+    '''
+    Note: Haven't attempted to fix normals in this function
+    :param strutwidth:
+    :param chamfactor:
+    :return:
+    '''
 
     # Calculate commonly used values for geometry definition
     chamheight = strutwidth/ chamfactor
@@ -199,12 +206,13 @@ def capped_node(strutwidth, chamfactor):
     point6 = [-l_2, -halfw, h]
     point7 = [-l_2, halfw, h]
     point8 = [-halfw, l_2, h]
-    topcap['vectors'][0] = np.array([point1, point2, point3])
-    topcap['vectors'][1] = np.array([point1, point3, point4])
-    topcap['vectors'][2] = np.array([point1, point4, point5])
-    topcap['vectors'][3] = np.array([point1, point5, point6])
-    topcap['vectors'][4] = np.array([point1, point6, point7])
-    topcap['vectors'][5] = np.array([point1, point7, point8])
+    # Define with right hand rule to assure outward facing normal
+    topcap['vectors'][0] = np.array([point1, point3, point2])
+    topcap['vectors'][1] = np.array([point1, point4, point3])
+    topcap['vectors'][2] = np.array([point1, point5, point4])
+    topcap['vectors'][3] = np.array([point1, point6, point5])
+    topcap['vectors'][4] = np.array([point1, point7, point6])
+    topcap['vectors'][5] = np.array([point1, point8, point7])
     top = mesh.Mesh(topcap)
 
     # Define Geometry of the chamfered sides
@@ -230,6 +238,17 @@ def capped_node(strutwidth, chamfactor):
         [-l_3, halfw, hs],
         [-halfw, l_3, hs]
     ]
+    chamfersides['vectors'][0] = np.array([point1, point2s, point1s])
+    chamfersides['vectors'][1] = np.array([point1, point2, point2s])
+    chamfersides['vectors'][2] = np.array([point3, point4s, point3s])
+    chamfersides['vectors'][3] = np.array([point3, point4, point4s])
+    chamfersides['vectors'][4] = np.array([point5, point6s, point5s])
+    chamfersides['vectors'][5] = np.array([point5, point6, point6s])
+    chamfersides['vectors'][6] = np.array([point7, point8s, point7s])
+    chamfersides['vectors'][7] = np.array([point7, point8, point8s])
+    chamfersides_mesh = mesh.Mesh(chamfersides)
+
+    '''
     chamfersides['vectors'][0] = np. array([point1, point1s, point2s])
     chamfersides['vectors'][1] = np. array([point1, point2s, point2])
     chamfersides['vectors'][2] = np. array([point3, point3s, point4s])
@@ -239,7 +258,7 @@ def capped_node(strutwidth, chamfactor):
     chamfersides['vectors'][6] = np. array([point7, point7s, point8s])
     chamfersides['vectors'][7] = np. array([point7, point8s, point8])
     chamfersides_mesh = mesh.Mesh(chamfersides)
-
+    '''
 
     # Define the rectangular sides
     sides = np.zeros(4, dtype=mesh.Mesh.dtype)
@@ -247,10 +266,15 @@ def capped_node(strutwidth, chamfactor):
     point1b = [halfw, l_3, 0]
     point2b = [l_3, halfw,0]
     point8b = [-halfw, l_3, 0]
-    sides['vectors'][0] = np. array([point1s, point1b, point2b])
+    sides['vectors'][0] = np.array([point1s, point2b, point1b])
+    sides['vectors'][1] = np.array([point1s, point2s, point2b])
+    sides['vectors'][2] = np.array([point8s, point1b, point8b])
+    sides['vectors'][3] = np.array([point8s, point1s, point1b])
+    '''sides['vectors'][0] = np. array([point1s, point1b, point2b])
     sides['vectors'][1] = np. array([point1s, point2b, point2s])
     sides['vectors'][2] = np. array([point8s, point8b, point1b])
     sides['vectors'][3] = np. array([point8s, point1b, point1s])
+    '''
     sidesubmesh1 = mesh.Mesh(sides.copy())
     sidesubmesh2 = mesh.Mesh(sides.copy())
     sidesubmesh3 = mesh.Mesh(sides.copy())
@@ -311,6 +335,19 @@ def strut(strutwidth, chamfactor,  pitch):
     point3sn = [halfp-hs, -halfw, halfp - l_3]
 
     singlestrut_geo = np.zeros(8, dtype=mesh.Mesh.dtype)
+    # This version of the strut definition attempts to fix the mesh normals
+
+    singlestrut_geo['vectors'][0] = np.array([point2_copy, point2n, point2sn])
+    singlestrut_geo['vectors'][1] = np.array([point2_copy, point2sn, point2s_copy])
+    singlestrut_geo['vectors'][2] = np.array([point3_copy, point3sn,  point3n])
+    singlestrut_geo['vectors'][3] = np.array([point3_copy, point3s_copy, point3sn])
+    singlestrut_geo['vectors'][4] = np.array([point2_copy, point3n, point2n])
+    singlestrut_geo['vectors'][5] = np.array([point2_copy, point3_copy, point3n])
+    singlestrut_geo['vectors'][6] = np.array([point2s_copy, point2sn, point3sn])
+    singlestrut_geo['vectors'][7] = np.array([point2s_copy, point3sn, point3s_copy])
+
+
+    ''' Original Strut Code:
     singlestrut_geo['vectors'][0] = np.array([point2_copy, point2n, point2sn])
     singlestrut_geo['vectors'][1] = np.array([point2_copy, point2sn, point2s_copy])
     singlestrut_geo['vectors'][2] = np.array([point3_copy, point3n, point3sn])
@@ -319,6 +356,7 @@ def strut(strutwidth, chamfactor,  pitch):
     singlestrut_geo['vectors'][5] = np.array([point2_copy, point3n, point3_copy])
     singlestrut_geo['vectors'][6] = np.array([point2s_copy, point2sn, point3sn])
     singlestrut_geo['vectors'][7] = np.array([point2s_copy, point3sn, point3s_copy])
+    '''
 
     finalsinglestrut = mesh.Mesh(singlestrut_geo)
     return finalsinglestrut
@@ -435,7 +473,7 @@ def lattice_array(voxel_mesh, pitch, x, y, z):
         x = 1
     else:
         for i in range(x):
-            if i == 0:
+            if i == 0:  # Don't need to make a copy of the original voxel
                 i = 0
             else:
                 new_obj = mesh.Mesh(voxel_mesh.data.copy())  # Make a copy of the voxel
@@ -477,12 +515,13 @@ def main():
     chamfer_factor = 2.666
 
     one_voxel = closed_voxel(strut_width, chamfer_factor, pitch)
+    
     one_lattice = lattice_array(one_voxel, pitch, 3, 3, 3)
 
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
-    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(one_lattice.vectors))
+    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(one_voxel.vectors))
 
     # Auto scale to the mesh size
     scale = one_voxel.points.flatten(-1)
@@ -491,7 +530,7 @@ def main():
     # Show the plot to the screen
     pyplot.show()
 
-    one_lattice.save('test_lattice.stl')
+    one_voxel.save('test_lattice.stl')
     print 'Code ran'
 
 main()
