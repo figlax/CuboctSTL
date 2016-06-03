@@ -24,11 +24,11 @@
       <file leaf-file-name="CuboctSTL_v0.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3754">
-              <caret line="953" column="4" selection-start-line="953" selection-start-column="4" selection-end-line="953" selection-end-column="4" />
+            <state relative-caret-position="-1259">
+              <caret line="852" column="47" selection-start-line="852" selection-start-column="47" selection-end-line="852" selection-end-column="47" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
-                <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+                <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
               </folding>
             </state>
           </provider>
@@ -371,13 +371,12 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.200714" sideWeight="0.4533107" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22665535" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26910016" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24950416" sideWeight="0.65789473" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26910016" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24950416" sideWeight="0.6457607" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24950416" sideWeight="0.34210527" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24950416" sideWeight="0.35423926" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32964888" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -385,6 +384,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -437,7 +437,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -480,7 +480,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -523,7 +523,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -559,7 +559,7 @@
           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -595,7 +595,7 @@
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -631,7 +631,7 @@
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -667,7 +667,7 @@
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -703,7 +703,7 @@
           <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>
@@ -783,11 +783,11 @@
     <entry file="file://$PROJECT_DIR$/CuboctSTL.py" />
     <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3754">
-          <caret line="953" column="4" selection-start-line="953" selection-start-column="4" selection-end-line="953" selection-end-column="4" />
+        <state relative-caret-position="-1259">
+          <caret line="852" column="47" selection-start-line="852" selection-start-column="47" selection-end-line="852" selection-end-column="47" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
-            <marker date="1464932758273" expanded="true" signature="13183:13399" ph="..." />
+            <marker date="1464991267004" expanded="true" signature="13399:13615" ph="..." />
           </folding>
         </state>
       </provider>

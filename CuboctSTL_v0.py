@@ -5,7 +5,7 @@ from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
 
-def make_closed_lattice(strut_width, chamfer_factor, pitch, x, y, z,  ):
+def make_lattice(strut_width, chamfer_factor, pitch, x, y, z, closed=True):
     '''
     This function creates a closed cuboct lattice.
     :param strut_width: float lattice strut width
@@ -14,17 +14,23 @@ def make_closed_lattice(strut_width, chamfer_factor, pitch, x, y, z,  ):
     :param x: integer number of items in the lattice in x direction
     :param y: integer number of items in the lattice in y direction
     :param z: integer number of items in the lattice in z direction
-    :return: numpy stl mesh object of closed cuboct lattice
+    :param closed: optional boolean parameter to determine whether to close the lattice. To make an open lattice with
+    no caps, set to False
+    :return: numpy stl mesh object of cuboct lattice
     '''
 
     # Make the voxel to be arrayed
     one_voxel = voxel(strut_width, chamfer_factor, pitch)
     # Array the voxel into a lattice
     one_lattice = box_array(one_voxel, pitch, x, y, z)
-    # Cap the open sides of the lattice
-    closed_lattice = box_cap(one_lattice, strut_width, chamfer_factor, pitch, x, y, z)
 
-    return closed_lattice
+    if closed is True:
+        # Cap the open sides of the lattice
+        final_lattice = box_cap(one_lattice, strut_width, chamfer_factor, pitch, x, y, z)
+    else:
+        final_lattice = one_lattice
+
+    return final_lattice
 
 
 def voxel(strut_width, chamfer_factor, pitch):
@@ -827,7 +833,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                         elif template[i, j, k+1] == 1:
                             flag = 1
                         else:
-                            print(" Something went horribly wrong with the template.")
+                            print(" Something went horribly wrong with the template. 1")
                     else:
                         if closed == True:
                             # You are on the edge, so place a cap
@@ -844,10 +850,13 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                                 cap_geo_bottom = mesh.Mesh(cap_mesh.data.copy())
                                 place_object(cap_geo_bottom, pitch * i, pitch * j, pitch * k)
                                 lattice += [cap_geo_bottom]
-                        elif template[i, j, k + 1] == 1:
+                        elif template[i, j, k - 1] == 1:
                             flag = 1
                         else:
-                            print(" Something went horribly wrong with the template.")
+                            print(" Something went horribly wrong with the template. 2")
+                            print(i)
+                            print(j)
+                            print(k)
                     else:
                         if closed == True:
                             # You are on the edge, so place a cap
@@ -867,7 +876,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                         elif template[i + 1, j, k] == 1:
                             flag = 1
                         else:
-                            print(" Something went horribly wrong with the template.")
+                            print(" Something went horribly wrong with the template. 3")
                     else:
                         if closed == True:
                             # You are on the edge, so place a cap
@@ -888,7 +897,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                         elif template[i - 1, j, k] == 1:
                             flag = 1
                         else:
-                            print(" Something went horribly wrong with the template.")
+                            print(" Something went horribly wrong with the template. 4")
                     else:
                         if closed == True:
                             # You are on the edge, so place a cap
@@ -909,7 +918,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                         elif template[i, j+1, k] == 1:
                             flag = 1
                         else:
-                            print(" Something went horribly wrong with the template.")
+                            print(" Something went horribly wrong with the template. 5")
                     else:
                         if closed == True:
                             # You are on the edge, so place a cap
@@ -930,7 +939,8 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                         elif template[i, j-1, k] == 1:
                             flag = 1
                         else:
-                            print(" Something went horribly wrong with the template.")
+                            print(" Something went horribly wrong with the template. 6")
+
                     else:
                         if closed == True:
                             # You are on the edge, so place a cap
@@ -951,7 +961,7 @@ def create_test_template():
     Creates a template to test the lattice_codedstructure function.
     :return: template
     '''
-    
+
     template = np.zeros((3, 3, 3))
     template[1, 1, 1] = 1
     template[1, 0, 1] = 1
@@ -983,6 +993,8 @@ def main():
     capmesh = cap(strut_width, chamfer_factor)
     structure = lattice_codedstructure(one_voxel, capmesh, pitch, template)
     structure.save('coded_structure_test.stl')
+
+
 
     # Create a new plot
     figure = pyplot.figure()
