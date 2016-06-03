@@ -181,7 +181,7 @@ def box_cap(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     cap_geo_top.rotate([1, 0, 0], math.radians(180))
     translate(cap_geo_top, np.array([0, 0, 1])*pitch*z)
     top_caps = rec_array(cap_geo_top, x, y, [1, 0, 0], [0, 1, 0], pitch, pitch)
-    closed_lattice += top_caps
+    closed_lattice += top_caps # rec_array returns a list, so this works
 
     # ------cap negX (left) -----------
     # rotate and translate cap geometry
@@ -612,6 +612,22 @@ def translate(meshobj, tvect):
         for vi,vector in enumerate(vectset):
             meshobj.vectors[vsi][vi] = vector+tvect
 
+
+def place_object(mesh_object, x_trans, y_trans, z_trans):
+    '''
+    This function translates a mesh object in x, y, and z direction.
+    :param mesh_object: mesh object to translate
+    :param x_trans: float. distance to translate in x
+    :param y_trans: float. distance to translate in y
+    :param z_trans: float. distance to translate in z
+    :return:
+    '''
+
+    translate(mesh_object, np.array([1, 0, 0]) * x_trans)
+    translate(mesh_object, np.array([0, 1, 0]) * y_trans)
+    translate(mesh_object, np.array([0, 0, 1]) * z_trans)
+
+
 def rotation_matrix( axis, theta):
     '''
     ----------THIS FUNCTION TAKEN FROM NUMPY STL ---------
@@ -768,19 +784,183 @@ def box_array(voxel_mesh, pitch, x, y, z):
     return open_lattice
 
 
-def lattice_codedstructure(voxel_mesh, template):
+def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
     '''
-    ------UNDER CONSTRUCTION------
     This function creates a lattice structure with individual voxel placement prescribed by a structure template.
-
-    :param voxel_mesh:
-    :param template: a 3-dimensional numpy array indicating location of voxels in 3d space (1= voxel present, 0= voxel not present)
-    :return:
+    :param voxel_mesh: numpy stl mesh object of voxel geometry to be arrayed
+    :param cap_mesh: numpy stl mesh object of the voxel cap
+    :param pitch: float. lattice pitch
+    :param template: three-dimensional numpy array containing a 1 for voxel, 0 for no voxel in that location
+    first dimension is x, second dimension is y, third dimension is z
+    :param closed: boolean. Set to false for an open lattice
+    :return: numpy stl mesh object of lattice structure defined by template
     '''
 
-    lattice = [voxel_mesh]
+    lattice = []
+
+    # Determine the x, y, and z size of the template (bounding box size in voxels)
+    [x_size, y_size, z_size] = template.shape
+
+    for i in range(x_size):
+        for j in range(y_size):
+            for k in range (z_size):
+                if template[i, j, k] == 1:  # If a voxel is supposed to be placed
+                    new_obj = mesh.Mesh(voxel_mesh.data.copy())  # Make a copy of the voxel
+                    # Move the new voxel to the correct place
+                    place_object(new_obj, pitch*i, pitch*j, pitch*k)
+                    #translate(new_obj, np.array([1, 0, 0]) * pitch * i)
+                    #translate(new_obj, np.array([0, 1, 0]) * pitch * j)
+                    #translate(new_obj, np.array([0, 0, 1]) * pitch * k)
+                    lattice += [new_obj]
+                    # check the connectivity and do optional capping
+                    flag = 0  # Create a flag to detect minimum connectivity
+
+                    # ----------check top--------
+                    if k+1< z_size: # if you aren't on the edge of the template
+                        if template[i, j, k + 1] == 0: # if there isn't a voxel there
+                            if closed == True:
+                                # place a cap on the top
+                                cap_geo_top = mesh.Mesh(cap_mesh.data.copy())
+                                cap_geo_top.rotate([1, 0, 0], math.radians(180))  # rotate so that normal vector is correct
+                                place_object(cap_geo_top, pitch * i, pitch * j, pitch * (k+1))
+                                lattice += [cap_geo_top]
+                        elif template[i, j, k+1] == 1:
+                            flag = 1
+                        else:
+                            print(" Something went horribly wrong with the template.")
+                    else:
+                        if closed == True:
+                            # You are on the edge, so place a cap
+                            cap_geo_top = mesh.Mesh(cap_mesh.data.copy())
+                            cap_geo_top.rotate([1, 0, 0], math.radians(180))  # rotate so that normal vector is correct
+                            place_object(cap_geo_top, pitch * i, pitch * j, pitch * (k+1))
+                            lattice += [cap_geo_top]
+
+                    # --------check bottom---------
+                    if k - 1 >= 0:  # if you aren't on the edge of the template
+                        if template[i, j, k - 1] == 0:  # if there isn't a voxel there
+                            if closed == True:
+                                # place a cap on the top
+                                cap_geo_bottom = mesh.Mesh(cap_mesh.data.copy())
+                                place_object(cap_geo_bottom, pitch * i, pitch * j, pitch * k)
+                                lattice += [cap_geo_bottom]
+                        elif template[i, j, k + 1] == 1:
+                            flag = 1
+                        else:
+                            print(" Something went horribly wrong with the template.")
+                    else:
+                        if closed == True:
+                            # You are on the edge, so place a cap
+                            cap_geo_bottom = mesh.Mesh(cap_mesh.data.copy())
+                            place_object(cap_geo_bottom, pitch * i, pitch * j, pitch * k)
+                            lattice += [cap_geo_bottom]
+
+                    # ----------check right (positive X)----------
+                    if i + 1 < x_size:  # if you aren't on the edge of the template
+                        if template[i + 1, j, k ] == 0:  # if there isn't a voxel there
+                            if closed == True:
+                                # place a cap on the right
+                                cap_geo_right = mesh.Mesh(cap_mesh.data.copy())
+                                cap_geo_right.rotate([0, 1, 0], math.radians(90))
+                                place_object(cap_geo_right, pitch * i + pitch/2, pitch * j, pitch * k + pitch/2 )
+                                lattice += [cap_geo_right]
+                        elif template[i + 1, j, k] == 1:
+                            flag = 1
+                        else:
+                            print(" Something went horribly wrong with the template.")
+                    else:
+                        if closed == True:
+                            # You are on the edge, so place a cap
+                            cap_geo_right = mesh.Mesh(cap_mesh.data.copy())
+                            cap_geo_right.rotate([0, 1, 0], math.radians(90))
+                            place_object(cap_geo_right, pitch * i + pitch / 2, pitch * j, pitch * k + pitch / 2)
+                            lattice += [cap_geo_right]
+
+                    # ----------check left (negative X)---------
+                    if i - 1 >= 0:  # if you aren't on the edge of the template
+                        if template[i - 1, j, k] == 0:  # if there isn't a voxel there
+                            if closed == True:
+                                # place a cap on the right
+                                cap_geo_left = mesh.Mesh(cap_mesh.data.copy())
+                                cap_geo_left.rotate([0, 1, 0], math.radians(270))
+                                place_object(cap_geo_left, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                lattice += [cap_geo_left]
+                        elif template[i - 1, j, k] == 1:
+                            flag = 1
+                        else:
+                            print(" Something went horribly wrong with the template.")
+                    else:
+                        if closed == True:
+                            # You are on the edge, so place a cap
+                            cap_geo_left = mesh.Mesh(cap_mesh.data.copy())
+                            cap_geo_left.rotate([0, 1, 0], math.radians(270))
+                            place_object(cap_geo_left, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                            lattice += [cap_geo_left]
+
+                    # ----------check back (positive Y)---------
+                    if j + 1 < y_size:  # if you aren't on the edge of the template
+                        if template[i, j+1, k] == 0:  # if there isn't a voxel there
+                            if closed == True:
+                                # place a cap on the right
+                                cap_geo_back = mesh.Mesh(cap_mesh.data.copy())
+                                cap_geo_back.rotate([1, 0, 0], math.radians(270))
+                                place_object(cap_geo_back, pitch * i, pitch * j + pitch/2, pitch * k + pitch / 2)
+                                lattice += [cap_geo_back]
+                        elif template[i, j+1, k] == 1:
+                            flag = 1
+                        else:
+                            print(" Something went horribly wrong with the template.")
+                    else:
+                        if closed == True:
+                            # You are on the edge, so place a cap
+                            cap_geo_back = mesh.Mesh(cap_mesh.data.copy())
+                            cap_geo_back.rotate([1, 0, 0], math.radians(270))
+                            place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2, pitch * k + pitch / 2)
+                            lattice += [cap_geo_back]
+
+                    # check front (negative Y)
+                    if j - 1 >= 0:  # if you aren't on the edge of the template
+                        if template[i, j-1, k] == 0:  # if there isn't a voxel there
+                            if closed == True:
+                                # place a cap on the right
+                                cap_geo_front = mesh.Mesh(cap_mesh.data.copy())
+                                cap_geo_front.rotate([1, 0, 0], math.radians(90))
+                                place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                                lattice += [cap_geo_front]
+                        elif template[i, j-1, k] == 1:
+                            flag = 1
+                        else:
+                            print(" Something went horribly wrong with the template.")
+                    else:
+                        if closed == True:
+                            # You are on the edge, so place a cap
+                            cap_geo_front = mesh.Mesh(cap_mesh.data.copy())
+                            cap_geo_front.rotate([1, 0, 0], math.radians(90))
+                            place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                            lattice += [cap_geo_front]
+
+                    # If the flag wasn't thrown, this voxel doesn't have any connectivity. Show an error
+                    if flag == 0:
+                        print(" There is a voxel in your template with zero connectivity.")
 
     return combine_meshes(*lattice)
+
+
+def create_test_template():
+    '''
+    Creates a template to test the lattice_codedstructure function.
+    :return: template
+    '''
+    
+    template = np.zeros((3, 3, 3))
+    template[1, 1, 1] = 1
+    template[1, 0, 1] = 1
+    template[0, 1, 1] = 1
+    template[1, 0, 0] = 1
+    template[2, 1, 1] = 1
+    template[2, 2, 1] = 1
+
+    return template
 
 
 def main():
@@ -791,16 +971,23 @@ def main():
     y=3
     z=3
 
-    lattice = make_closed_lattice(strut_width, chamfer_factor, pitch, x, y, z)
+    #lattice = make_closed_lattice(strut_width, chamfer_factor, pitch, x, y, z)
 
-    lattice.save('test_lattice.stl')
+    #lattice.save('test_lattice.stl')
 
+    one_voxel = voxel(strut_width, chamfer_factor, pitch)
+    new_voxel = mesh.Mesh(one_voxel.data.copy())
+    place_object(new_voxel, pitch*2, pitch*2, pitch*2)
 
-    '''
+    template = create_test_template()
+    capmesh = cap(strut_width, chamfer_factor)
+    structure = lattice_codedstructure(one_voxel, capmesh, pitch, template)
+    structure.save('coded_structure_test.stl')
+
     # Create a new plot
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
-    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(closed_lattice.vectors))
+    axes.add_collection3d(mplot3d.art3d.Poly3DCollection(structure.vectors))
 
 
     # Auto scale to the mesh size
@@ -809,7 +996,7 @@ def main():
 
     # Show the plot to the screen
     pyplot.show()
-    '''
+
 
 
 main()
