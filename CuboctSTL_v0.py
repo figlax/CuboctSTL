@@ -4,12 +4,28 @@ import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
+
 def make_closed_lattice(strut_width, chamfer_factor, pitch, x, y, z,  ):
+    '''
+    This function creates a closed cuboct lattice.
+    :param strut_width: float lattice strut width
+    :param chamfer_factor: float node chamfer factor. Lower number corresponds to more node reinforcement
+    :param pitch: float lattice pitch (distance between voxels)
+    :param x: integer number of items in the lattice in x direction
+    :param y: integer number of items in the lattice in y direction
+    :param z: integer number of items in the lattice in z direction
+    :return: numpy stl mesh object of closed cuboct lattice
+    '''
+
+    # Make the voxel to be arrayed
     one_voxel = voxel(strut_width, chamfer_factor, pitch)
+    # Array the voxel into a lattice
     one_lattice = box_array(one_voxel, pitch, x, y, z)
+    # Cap the open sides of the lattice
     closed_lattice = box_cap(one_lattice, strut_width, chamfer_factor, pitch, x, y, z)
 
     return closed_lattice
+
 
 def voxel(strut_width, chamfer_factor, pitch):
     '''
@@ -576,7 +592,7 @@ def side_strut(strutwidth, chamfactor,  pitch):
     singlestrut_geo['vectors'][7] = np.array([point2s_rotated, point3sn_rotated, point3s_rotated])
 
     # Move the strut back to side height
-    singlestrut_geo['vectors'] += [0, 0, pitch/2 ]
+    singlestrut_geo['vectors'] += [0, 0, pitch/2]
 
     finalsinglestrut = mesh.Mesh(singlestrut_geo)
 
@@ -775,8 +791,9 @@ def main():
     y=3
     z=3
 
-
     lattice = make_closed_lattice(strut_width, chamfer_factor, pitch, x, y, z)
+
+    lattice.save('test_lattice.stl')
 
 
     '''
@@ -792,11 +809,7 @@ def main():
 
     # Show the plot to the screen
     pyplot.show()
-
     '''
-
-
-    lattice.save('test_lattice.stl')
 
 
 main()
