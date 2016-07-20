@@ -1821,7 +1821,7 @@ def create_test_template():
     template = np.zeros((3, 3, 3), dtype=np.int)
     template[1, 1, 1] = 2
     template[1, 0, 1] = 1
-    template[0, 1, 1] = 1
+    template[0, 1, 1] = 3
     template[1, 0, 0] = 1
     template[2, 1, 1] = 1
     template[2, 2, 1] = 1
@@ -1853,7 +1853,7 @@ def compression_template():
 
     template[:, :, :] = 1
     template[:, :, 0] = 2
-    template[:, :, z-1] = 2
+    template[:, :, z-1] = 3
 
     return template
 
@@ -1880,12 +1880,12 @@ def preview_mesh(*args):
 
 
 def main():
-    pitch = 30
-    strut_width = 2
-    chamfer_factor = 2.75
-    x = 3
-    y = 3
-    z = 3
+    pitch = 6.04
+    strut_width = 0.6
+    chamfer_factor = 3
+    x = 10
+    y = 10
+    z = 10
 
 
 
@@ -1893,10 +1893,11 @@ def main():
 
     lattice = compression_specimen(strut_width, chamfer_factor, pitch, x, y, z)
 
-    lattice.save('test_lattice.stl')
+    lattice.save('Cuboct_10x10y_10z_halfvox_p6-04_SW0-600_CF3_RD0-1000.stl')
 
     one_voxel = voxel(strut_width, chamfer_factor, pitch)
     two_voxel = hybrid_voxel(strut_width*0.5, chamfer_factor, pitch, strut_width)
+    three_voxel = half_voxel(strut_width, chamfer_factor, pitch)
     template = create_test_template()
     capmesh = cap_cuboct(strut_width, chamfer_factor)
     #structure = lattice_codedstructure(one_voxel, capmesh, pitch, template)
@@ -1918,10 +1919,11 @@ def main():
     default_caps = [0, cap_geo_bottom, cap_geo_right, cap_geo_left, cap_geo_back, cap_geo_front]
 
     print('...meshing structure...')
-    hybrid_structure = hybrid_codedstructure(template, pitch, [one_voxel, two_voxel], [default_caps, default_caps])
+    hybrid_structure = hybrid_codedstructure(template, pitch, [one_voxel, two_voxel, three_voxel],
+        [capmesh, capmesh, default_caps])
     hybrid_structure.save('hybrid_structure_test.stl')
 
-    #one_voxel.save('test_voxel.stl')
+
     preview_mesh(hybrid_structure)
 
 
