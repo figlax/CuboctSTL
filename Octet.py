@@ -75,12 +75,12 @@ def node(strutwidth, chamfactor):
 
     # Define second chamfer to bottom octet struts
     l_4 = np.sqrt(2)*(l_3 - halfw)  # Is this square root going to be a problem for error prop?
-    point_A_prime = [strutwidth*(l_3-halfw)/4 + halfw, l_3, halfw]
-    point_B_prime = [l_3,  strutwidth * (l_3 - halfw) / 4 + halfw, halfw]
-    point_H_prime = [-(strutwidth*(l_3-halfw)/4+ halfw), l_3, halfw]
-    point_A_prime_bottom = [strutwidth * (l_3 - halfw) / 4 + halfw, l_3, 0]
-    point_B_prime_bottom = [l_3, strutwidth * (l_3 - halfw) / 4 + halfw, 0]
-    point_H_prime_bottom = [-(strutwidth * (l_3 - halfw) / 4 + halfw), l_3, 0]
+    point_A_prime = [l_3 - np.sqrt(2)*strutwidth/2, l_3, halfw]
+    point_B_prime = [l_3,  l_3 - np.sqrt(2)*strutwidth/2, halfw]
+    point_H_prime = [-(l_3 - np.sqrt(2)*strutwidth/2), l_3, halfw]
+    point_A_prime_bottom = [l_3 - np.sqrt(2)*strutwidth/2, l_3, 0]
+    point_B_prime_bottom = [l_3, l_3 - np.sqrt(2)*strutwidth/2, 0]
+    point_H_prime_bottom = [-(l_3 - np.sqrt(2)*strutwidth/2), l_3, 0]
 
     sides = np.zeros(6, dtype=mesh.Mesh.dtype)
     sides['vectors'][0] = np.array([point1s, point2s, point_A_prime])
@@ -99,39 +99,33 @@ def node(strutwidth, chamfactor):
 
 def corner_node(strutwidth, chamfactor):
     """
-    This function creates a mesh of an open full octet node.
+    This function creates a mesh of an open quarter (first quadrant) octet node to be used on the corners
+    of the octet voxel.
     :param strutwidth: float
     :param chamfactor: float
     :return: finalnodemesh: numpy stl mesh object of open node
     """
 
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth/ chamfactor
+    chamheight = strutwidth / chamfactor
     halfw = strutwidth / 2
 
     # Define geometry of the top cap
-    topcap = np.zeros(6, dtype=mesh.Mesh.dtype)
-    # topcap['vectors'][0] = np.array([[halfw, l_2, h],
-                                       #  [l_2, halfw, h],
-                                        #[0, 0, h]])
-    # Calculate the height and halflength of top octogonal cap
+    topcap = np.zeros(3, dtype=mesh.Mesh.dtype)
+    # Calculate the height and half-length of top octogonal cap
     h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2)
     l_2 = strutwidth / 2 + chamheight
     point1 = [halfw, l_2, h]
     point2 = [l_2, halfw, h]
-    point3 = [l_2, -halfw, h]
-    point4 = [halfw, -l_2, h]
-    point5 = [-halfw, -l_2, h]
-    point6 = [-l_2, -halfw, h]
-    point7 = [-l_2, halfw, h]
-    point8 = [-halfw, l_2, h]
+    point3 = [l_2, 0, h]
+    point4 = [0, 0, h]
+    point5 = [0, l_2, h]
+
     # Define with right hand rule to assure outward facing normal
-    topcap['vectors'][0] = np.array([point8, point7, point1])
-    topcap['vectors'][1] = np.array([point1, point7, point2])
-    topcap['vectors'][2] = np.array([point2, point7, point6])
-    topcap['vectors'][3] = np.array([point2, point6, point3])
-    topcap['vectors'][4] = np.array([point3, point6, point5])
-    topcap['vectors'][5] = np.array([point3, point5, point4])
+    topcap['vectors'][0] = np.array([point1, point5, point2])
+    topcap['vectors'][1] = np.array([point2, point5, point3])
+    topcap['vectors'][2] = np.array([point3, point5, point4])
+
     top = mesh.Mesh(topcap)
 
     # Define Geometry of the chamfered sides
@@ -155,38 +149,39 @@ def corner_node(strutwidth, chamfactor):
         [-l_3, halfw, hs],
         [-halfw, l_3, hs]
     ]
-    chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
+    chamfersides = np.zeros(2, dtype=mesh.Mesh.dtype)
     chamfersides['vectors'][0] = np. array([point1, point2s, point1s])
     chamfersides['vectors'][1] = np. array([point1, point2, point2s])
-    chamfersides['vectors'][2] = np. array([point3, point4s, point3s])
-    chamfersides['vectors'][3] = np. array([point3, point4, point4s])
-    chamfersides['vectors'][4] = np. array([point5, point6s, point5s])
-    chamfersides['vectors'][5] = np. array([point5, point6, point6s])
-    chamfersides['vectors'][6] = np. array([point7, point8s, point7s])
-    chamfersides['vectors'][7] = np. array([point7, point8, point8s])
     chamfersides_mesh = mesh.Mesh(chamfersides)
 
     # Define second chamfer to bottom octet struts
     l_4 = np.sqrt(2)*(l_3 - halfw)  # Is this square root going to be a problem for error prop?
-    point_A_prime = [strutwidth*(l_3-halfw)/4 + halfw, l_3, halfw]
-    point_B_prime = [l_3,  strutwidth * (l_3 - halfw) / 4 + halfw, halfw]
-    point_H_prime = [-(strutwidth*(l_3-halfw)/4+ halfw), l_3, halfw]
-    point_A_prime_bottom = [strutwidth * (l_3 - halfw) / 4 + halfw, l_3, 0]
-    point_B_prime_bottom = [l_3, strutwidth * (l_3 - halfw) / 4 + halfw, 0]
-    point_H_prime_bottom = [-(strutwidth * (l_3 - halfw) / 4 + halfw), l_3, 0]
+    point_A_prime = [l_3 - np.sqrt(2)*strutwidth/2, l_3, halfw]
+    point_B_prime = [l_3,  l_3 - np.sqrt(2)*strutwidth/2, halfw]
+    point_H_prime_quarter = [0, l_3, halfw]
+    point_c_prime_quarter = [l_3, 0, halfw]
+    point_A_prime_bottom = [l_3 - np.sqrt(2)*strutwidth/2, l_3, 0]
+    point_B_prime_bottom = [l_3, l_3 - np.sqrt(2)*strutwidth/2, 0]
+    point_H_prime_quarter_bottom = [0, l_3, 0]
+    point_c_prime_quarter_bottom = [l_3, 0, 0]
 
-    sides = np.zeros(6, dtype=mesh.Mesh.dtype)
+    sides = np.zeros(10, dtype=mesh.Mesh.dtype)
     sides['vectors'][0] = np.array([point1s, point2s, point_A_prime])
     sides['vectors'][1] = np.array([point2s, point_B_prime, point_A_prime])
-    sides['vectors'][2] = np.array([point1s, point_A_prime, point8s])
-    sides['vectors'][3] = np.array([point8s, point_A_prime, point_H_prime])
-    sides['vectors'][4] = np.array([point_H_prime, point_A_prime, point_H_prime_bottom])
-    sides['vectors'][5] = np.array([point_H_prime_bottom, point_A_prime, point_A_prime_bottom])
+    sides['vectors'][2] = np.array([point1s, point_A_prime, [0, l_3, hs]])
+    sides['vectors'][3] = np.array([[0, l_3, hs], point_A_prime, point_H_prime_quarter])
+    sides['vectors'][4] = np.array([point_H_prime_quarter, point_A_prime, point_H_prime_quarter_bottom])
+    sides['vectors'][5] = np.array([point_H_prime_quarter_bottom, point_A_prime, point_A_prime_bottom])
+    sides['vectors'][6] = np.array([[l_3, 0, hs], point_B_prime, point2s])
+    sides['vectors'][7] = np.array([point_c_prime_quarter, point_B_prime, [l_3, 0, hs]])
+    sides['vectors'][8] = np.array([point_c_prime_quarter, point_c_prime_quarter_bottom, point_B_prime])
+    sides['vectors'][9] = np.array([point_c_prime_quarter_bottom, point_B_prime_bottom, point_B_prime])
     sides_mesh = mesh.Mesh(sides.copy())
-    all_sides = arraypolar(sides_mesh, [0, 0, 1], 4)
+
+
 
     # Make final mesh for the open node geometry
-    combined_geometry = [chamfersides_mesh] + [top] + all_sides
+    combined_geometry = [chamfersides_mesh] + [top] + [sides_mesh]
 
     return combine_meshes(*combined_geometry)
 
@@ -301,6 +296,62 @@ def side_strut(strutwidth, chamfactor,  pitch):
 
     return finalsinglestrut
 
+def corner(strut_width, chamfer_factor, pitch):
+    """
+
+    :param strut_width:
+    :param chamfer_factor:
+    :param pitch:
+    :return:
+    """
+
+    # Make a base node for the corner
+    cnode = corner_node(strut_width, chamfer_factor)
+
+    # Geometry Parameters
+    # Calculate commonly used values for geometry definition
+    chamheight = strut_width / chamfer_factor
+    halfw = strut_width / 2
+    halfp = pitch / 2
+    h = chamheight + (strut_width * np.sin(np.pi / 4) + strut_width / 2)  # height of top cap
+    l_2 = strut_width / 2 + chamheight  # horizontal position of points on topcap
+    hs = l_2  # height of side points of node
+    l_3 = l_2 + strut_width * np.cos(np.pi / 4)  # horizontal position of points
+
+    # re-use points from strut code, with alteration to create half-struts
+    point2 = [l_2, halfw, h]
+    point3 = [l_2, 0, h]
+    point2s = [l_3, halfw, hs]
+    point3s = [l_3, 0, hs]
+    # new points to attach to on side node
+    point2n = [halfp - h, halfw, halfp - l_2]
+    point3n = [halfp - h, 0, halfp - l_2]
+    point2sn = [halfp - hs, halfw, halfp - l_3]
+    point3sn = [halfp - hs, 0, halfp - l_3]
+
+    face_halfstrut_geo = np.zeros(6, dtype=mesh.Mesh.dtype)
+    face_halfstrut_geo['vectors'][0] = np.array([point3, point3n, point2n])
+    face_halfstrut_geo['vectors'][1] = np.array([point3, point2n, point2])
+    face_halfstrut_geo['vectors'][2] = np.array([point2, point2n, point2sn])
+    face_halfstrut_geo['vectors'][3] = np.array([point2, point2sn, point2s])
+    face_halfstrut_geo['vectors'][4] = np.array([point2s, point3s, point2sn])
+    face_halfstrut_geo['vectors'][5] = np.array([point3s, point3sn, point2sn])
+    face_halfstrut = mesh.Mesh(face_halfstrut_geo)
+
+    face_halfstrut2 = mesh.Mesh(face_halfstrut.data.copy())
+    face_halfstrut2.rotate([1, 0, 1], math.radians(180))
+    face_halfstrut2.rotate([0,0,1], math.radians(270))
+
+    face_halfstrut3 = mesh.Mesh(face_halfstrut.data.copy())
+    face_halfstrut3.rotate([1, 0, 1], math.radians(270))
+    face_halfstrut3.rotate([0, 1, 0], math.radians(-45))
+    face_halfstrut3.rotate([0, 0, 1], math.radians(-45))
+
+    combined_geometry = [cnode] + [face_halfstrut] + [face_halfstrut2] + [face_halfstrut3]
+
+    return combine_meshes(*combined_geometry)
+
+
 def voxel(strut_width, chamfer_factor, pitch):
     """
     Creates the mesh of an open cuboct voxel.
@@ -330,8 +381,19 @@ def voxel(strut_width, chamfer_factor, pitch):
     vnodes[5].rotate([0, 0.5, 0], math.radians(270))
     translate(vnodes[5], np.array([-0.5, 0, 0.5]) * pitch)
 
-    # Define voxel struts using strut function
+    # Define voxel corner nodes
+    v_corner = corner(strut_width, chamfer_factor, pitch)
+    translate(v_corner, np.array([-1, 0, 0]) * pitch / 2)
+    translate(v_corner, np.array([0, -1, 0]) * pitch / 2)
+    bottom_corners = arraypolar(v_corner, [0, 0, 1], 4)
+    v_corner_top = corner(strut_width, chamfer_factor, pitch)
+    v_corner_top.rotate([0, 1, 0], math.radians(180))
+    translate(v_corner_top, np.array([1, 0, 0]) * pitch / 2)
+    translate(v_corner_top, np.array([0, -1, 0]) * pitch / 2)
+    translate(v_corner_top, np.array([0, 0, 1])* pitch)
+    top_corners = arraypolar(v_corner_top, [0, 0, 1], 4)
 
+    # Define voxel struts using strut function
     strut1 = strut(strut_width, chamfer_factor, pitch)
     bottom_struts = arraypolar(strut1, [0, 0, 1], 4)
     strut1.rotate([1, 0, 0], math.radians(180))
@@ -341,23 +403,24 @@ def voxel(strut_width, chamfer_factor, pitch):
     strut2 = side_strut(strut_width, chamfer_factor, pitch)
     side_struts = arraypolar(strut2, [0, 0, 0.5], 4)
 
-    combined_geometry = bottom_struts + top_struts + side_struts +vnodes
+    combined_geometry = bottom_struts + top_struts + side_struts + vnodes + bottom_corners + top_corners
 
     return combine_meshes(*combined_geometry)
 
-def arraypolar(m_obj, r_axis, num, rotation_point=None):
+def arraypolar(m_obj, r_axis, num, rotation_point=None, angle=360):
     """
     This function arrays mesh objects in evenly spaced circular pattern.
     :param m_obj: numpy stl mesh object to array
     :param r_axis: rotation axis ex. [0, 0, 1]
     :param num: number of items to array
     :param rotation_point: point to place rotation axis if not center
+    :param angle: angle to fill if not 360 degrees. Enter in degrees
     :return: list of arrayed objects
     """
     array_objects = list()
     for i in range(num):
         obj = mesh.Mesh(m_obj.data.copy())
-        obj.rotate(r_axis, math.radians((360 / num) * i), rotation_point)
+        obj.rotate(r_axis, math.radians((angle / num) * i), rotation_point)
         array_objects.append(obj)
     return array_objects
 
@@ -416,9 +479,13 @@ def main():
     y = 10
     z = 10
 
+    test_corner = corner(strut_width, chamfer_factor, pitch)
     test_node = node(strut_width, chamfer_factor)
     test_voxel = voxel(strut_width, chamfer_factor, pitch)
+    test_corner_node = corner_node(strut_width, chamfer_factor)
     preview_mesh(test_voxel)
+    test_voxel.save('octet_test_voxel.stl')
+
 
 if __name__ == "__main__":
     main()
