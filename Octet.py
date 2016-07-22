@@ -4,6 +4,103 @@ import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
+
+def make_lattice(strut_width, chamfer_factor, pitch, x, y, z, closed=True):
+    """
+    This function creates a closed cuboct lattice.
+    :param strut_width: float lattice strut width
+    :param chamfer_factor: float node chamfer factor. Lower number corresponds to more node reinforcement
+    :param pitch: float lattice pitch (distance between voxels)
+    :param x: integer number of items in the lattice in x direction
+    :param y: integer number of items in the lattice in y direction
+    :param z: integer number of items in the lattice in z direction
+    :param closed: optional boolean parameter to determine whether to close the lattice. To make an open lattice with
+    no caps, set to False
+    :return: numpy stl mesh object of cuboct lattice
+    """
+
+    # Make the voxel to be arrayed
+    one_voxel = voxel(strut_width, chamfer_factor, pitch)
+    # Array the voxel into a lattice
+    one_lattice = box_array(one_voxel, pitch, x, y, z)
+
+    if closed is True:
+        # Cap the open sides of the lattice
+        final_lattice = box_cap(one_lattice, strut_width, chamfer_factor, pitch, x, y, z)
+    else:
+        final_lattice = one_lattice
+
+    return final_lattice
+
+def box_cap(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
+    """
+    This function applies caps to the outside of an open lattice mesh to create a closed mesh suitable for printing
+    :param open_lattice: lattice mesh object
+    :param strutwidth: float
+    :param chamfactor: float
+    :param pitch: float
+    :param x: integer number of voxels in the lattice in x direction
+    :param y: integer number of voxels in the lattice in y direction
+    :param z: integer number of voxels in the lattice in z direction
+    :return: numpy stl mesh object of closed lattice
+    """
+
+    closed_lattice = [open_lattice]  # Assume want list structure
+
+    # Generate the cap geometry
+    cap_geo = cap(strutwidth, chamfactor, pitch)
+
+    # ------cap bottom---------
+    bottom_caps = rec_array(cap_geo, x, y, [1, 0, 0], [0, 1, 0], pitch, pitch)
+    closed_lattice += bottom_caps
+
+    # ------cap top---------
+    # flip the cap geometry to array the top
+    # NOTE for FUTURE WORK: it might be more efficient long term to just flip the normals and translate the whole plane
+    cap_geo_top = mesh.Mesh(cap_geo.data.copy())
+    cap_geo_top.rotate([1, 0, 0], math.radians(180))
+    translate(cap_geo_top, np.array([0, 0, 1])*pitch*z)
+    top_caps = rec_array(cap_geo_top, x, y, [1, 0, 0], [0, 1, 0], pitch, pitch)
+    closed_lattice += top_caps # rec_array returns a list, so this works
+
+    # ------cap negX (left) -----------
+    # rotate and translate cap geometry
+    cap_geo_left = mesh.Mesh(cap_geo.data.copy())
+    cap_geo_left.rotate([0, 1, 0], math.radians(270))
+    translate(cap_geo_left, np.array([-1, 0, 0]) * pitch / 2)
+    translate(cap_geo_left, np.array([0, 0, 1]) * pitch / 2)
+    left_side_caps = rec_array(cap_geo_left, y, z, [0, 1, 0], [0, 0, 1], pitch, pitch)
+    closed_lattice += left_side_caps
+
+    # ------cap posX (right) -----------
+    cap_geo_right = mesh.Mesh(cap_geo.data.copy())
+    cap_geo_right.rotate([0, 1, 0], math.radians(90))
+    translate(cap_geo_right, np.array([1, 0, 0]) * pitch * x)
+    translate(cap_geo_right, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_right, np.array([-1, 0, 0]) * pitch / 2)
+    right_side_caps = rec_array(cap_geo_right, y, z, [0, 1, 0], [0, 0, 1], pitch, pitch)
+    closed_lattice += right_side_caps
+
+    # --------cap front (negY) ------------
+    cap_geo_front = mesh.Mesh(cap_geo.data.copy())
+    cap_geo_front.rotate([1, 0, 0], math.radians(90))
+    translate(cap_geo_front, np.array([0, -1, 0]) * pitch / 2)
+    translate(cap_geo_front, np.array([0, 0, 1]) * pitch / 2)
+    front_caps = rec_array(cap_geo_front, x, z, [1, 0, 0], [0, 0, 1], pitch, pitch)
+    closed_lattice += front_caps
+
+    # -------cap back (posY) --------------
+    cap_geo_back = mesh.Mesh(cap_geo.data.copy())
+    cap_geo_back.rotate([1, 0, 0], math.radians(270))
+    translate(cap_geo_back, np.array([0, 1, 0]) * pitch * y)
+    translate(cap_geo_back, np.array([0, -1, 0]) * pitch / 2)
+    translate(cap_geo_back, np.array([0, 0, 1]) * pitch / 2)
+    back_caps = rec_array(cap_geo_back, x, z, [1, 0, 0], [0, 0, 1], pitch, pitch)
+    closed_lattice += back_caps
+
+    return combine_meshes(*closed_lattice)
+
+
 def node(strutwidth, chamfactor):
     """
     This function creates a mesh of an open full octet node.
@@ -351,6 +448,64 @@ def corner(strut_width, chamfer_factor, pitch):
 
     return combine_meshes(*combined_geometry)
 
+def cap(strut_width, chamfer_factor, pitch):
+    """
+    Creates a mesh of the face capping geometry for the octet voxel.
+    :param strut_width: float
+    :param chamfer_factor: float
+    :param pitch: float
+    :return: numpy stl mesh object of cap geometry
+    """
+    # Calculate commonly used values for geometry definition
+    chamheight = strut_width / chamfer_factor
+    halfw = strut_width / 2
+    l_2 = strut_width / 2 + chamheight
+    l_3 = l_2 + strut_width * np.cos(np.pi / 4)  # horizontal position of points
+    l_4 = np.sqrt(2) * (l_3 - halfw)  # Is this square root going to be a problem for error prop?
+
+    # Define points for node cap
+    face_strut_pos = l_3 - np.sqrt(2) * strut_width / 2
+    point_A_prime_bottom = [face_strut_pos, l_3, 0]
+    point_B_prime_bottom = [l_3, face_strut_pos, 0]
+    point_C_prime_bottom = [l_3, -face_strut_pos, 0]
+    point_D_prime_bottom = [face_strut_pos, -l_3, 0]
+    point_E_prime_bottom = [-face_strut_pos, -l_3, 0]
+    point_F_prime_bottom = [-l_3, -face_strut_pos, 0]
+    point_G_prime_bottom = [-l_3, face_strut_pos, 0]
+    point_H_prime_bottom = [-face_strut_pos, l_3, 0]
+    # Use these points to cap area over the node
+    node_cap_geo = np.zeros(6, dtype=mesh.Mesh.dtype)
+    node_cap_geo['vectors'][0] = np.array([point_H_prime_bottom, point_A_prime_bottom, point_G_prime_bottom])
+    node_cap_geo['vectors'][1] = np.array([point_A_prime_bottom, point_B_prime_bottom, point_G_prime_bottom])
+    node_cap_geo['vectors'][2] = np.array([point_G_prime_bottom, point_B_prime_bottom, point_F_prime_bottom])
+    node_cap_geo['vectors'][3] = np.array([point_B_prime_bottom, point_C_prime_bottom, point_F_prime_bottom])
+    node_cap_geo['vectors'][4] = np.array([point_C_prime_bottom, point_E_prime_bottom, point_F_prime_bottom])
+    node_cap_geo['vectors'][5] = np.array([point_C_prime_bottom, point_D_prime_bottom, point_E_prime_bottom])
+    node_cap = mesh.Mesh(node_cap_geo)
+
+    # Define corner node cap
+    corner_cap_geo = np.zeros(3, dtype=mesh.Mesh.dtype)
+    corner_cap_geo['vectors'][0] = np.array([[0,0,0], [0, l_3, 0], [l_3, 0, 0]])
+    corner_cap_geo['vectors'][1] = np.array([[0, l_3, 0], point_B_prime_bottom, [l_3, 0, 0]])
+    corner_cap_geo['vectors'][2] = np.array([[0, l_3, 0], point_A_prime_bottom, point_B_prime_bottom])
+    corner_cap = mesh.Mesh(corner_cap_geo)
+
+    # Define strut cap
+    point_corner_A_prime_bottom = [-pitch/2 + point_A_prime_bottom[0], -pitch/2 + point_A_prime_bottom[1], 0]
+    point_corner_B_prime_bottom = [-pitch/2 + point_B_prime_bottom[0], -pitch/2 + point_B_prime_bottom[1], 0]
+    strut_cap_geo = np.zeros(2, dtype=mesh.Mesh.dtype)
+    strut_cap_geo['vectors'][0] = np.array([point_corner_A_prime_bottom, point_F_prime_bottom, point_E_prime_bottom])
+    strut_cap_geo['vectors'][1] = np.array([point_corner_A_prime_bottom, point_E_prime_bottom, point_corner_B_prime_bottom])
+    strut_cap = mesh.Mesh(strut_cap_geo)
+
+    translate(corner_cap, np.array([-1, -1, 0])* pitch/2)
+    corners = arraypolar(corner_cap, [0, 0, 1], 4)
+    struts = arraypolar(strut_cap, [0, 0, 1], 4)
+
+    combined_geometry = corners + struts + [node_cap]
+
+    return combine_meshes(*combined_geometry)
+
 
 def voxel(strut_width, chamfer_factor, pitch):
     """
@@ -425,6 +580,106 @@ def arraypolar(m_obj, r_axis, num, rotation_point=None, angle=360):
     return array_objects
 
 
+def rec_array(mesh_object, x, y, x_vector, y_vector, x_pitch, y_pitch):
+    """
+    This function arrays a given mesh object in two dimensions x and y.
+    Note that x and y in this function need not be globally defined x and y.
+    NOTE: returns a list of the arrayed mesh objects, not a unified mesh object
+    :param mesh_object: numpy stl mesh object
+    :param x: integer number of items in the lattice in x direction
+    :param y: integer number of items in the lattice in y direction
+    :param x_vector: vector  ex. [1, 0 , 0]
+    :param y_vector: vector  ex. [0, 0 , 1]
+    :param x_pitch: pitch in x direction (distance between arrayed objects)
+    :param y_pitch: pitch in y direction (distance between arrayed objects)
+    :return: rectangular_array: list containing all arrayed objects
+    """
+
+    rectangular_array = [mesh_object]
+
+    if x == 1:  # Don't need to do anything if x dimension is 1
+        x = 1
+    else:
+        for i in range(x):
+            if i == 0:  # Don't need to make a copy of the original voxel
+                i = 0
+            else:
+                new_obj = mesh.Mesh(mesh_object.data.copy())  # Make a copy of the voxel
+                translate(new_obj, np.array(x_vector) * x_pitch * i)
+                rectangular_array += [new_obj]
+    # array in y direction
+    if y == 1:  # Don't need to do anything if y dimension is 1
+        y = 1
+    else:
+        xline = rectangular_array
+        for j in range(y):
+            if j == 0:  # Don't need to make a copy of the original voxel line
+                j = 0
+            else:
+                for thing in xline:
+                    new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
+                    translate(new_obj, np.array(y_vector) * y_pitch * j)
+                    rectangular_array = rectangular_array + [
+                        new_obj]  # Can't use += because modifies copy too and creates an infinite loop
+
+    # return the list of arrayed mesh objects
+    return rectangular_array
+
+
+def box_array(voxel_mesh, pitch, x, y, z):
+    """
+    This function cubically arrays a mesh object
+    :param voxel_mesh:
+    :param pitch:
+    :param x: integer number of items in the lattice in x direction
+    :param y: integer number of items in the lattice in y direction
+    :param z: integer number of items in the lattice in z direction
+    :return: numpy stl mesh object of arrayed geometry
+    """
+    lattice = [voxel_mesh]  # Assume want list structure
+
+    # array in x direction
+    if x == 1:  # Don't need to do anything if x dimension is 1
+        x = 1
+    else:
+        for i in range(x):
+            if i == 0:  # Don't need to make a copy of the original voxel
+                i = 0
+            else:
+                new_obj = mesh.Mesh(voxel_mesh.data.copy())  # Make a copy of the voxel
+                translate(new_obj, np.array([1, 0, 0]) * pitch * i)
+                lattice += [new_obj]
+    # array in y direction
+    if y == 1:  # Don't need to do anything if y dimension is 1
+        y = 1
+    else:
+        xline = lattice
+        for j in range(y):
+            if j == 0:  # Don't need to make a copy of the original voxel line
+                j = 0
+            else:
+                for thing in xline:
+                    new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
+                    translate(new_obj, np.array([0, 1, 0]) * pitch * j)
+                    lattice = lattice + [new_obj]  # Can't use += because modifies copy too and creates an infinite loop
+    # array in z direction
+    if z == 1:  # Don't need to do anything if the z dimension is 1
+        z = 1
+    else:
+        xyplane = lattice
+        for k in range(z):
+            if k == 0:  # Don't need to make a copy of the original voxel plane
+                k == 0
+            else:
+                for thing in xyplane:
+                    new_obj = mesh.Mesh(thing.data.copy())  # Make a copy of the voxel
+                    translate(new_obj, np.array([0, 0, 1]) * pitch * k)
+                    lattice = lattice + [new_obj]  # Can't use += because modifies copy too and creates an infinite loop
+    open_lattice = combine_meshes(*lattice)
+
+
+    return open_lattice
+
 def translate(meshobj, tvect):
     """
     -------function from Daniel Cellucci's latticegen code--------
@@ -475,16 +730,18 @@ def main():
     pitch = 10
     strut_width = 0.6
     chamfer_factor = 3
-    x = 10
-    y = 10
-    z = 10
+    x = 3
+    y = 3
+    z = 3
 
     test_corner = corner(strut_width, chamfer_factor, pitch)
     test_node = node(strut_width, chamfer_factor)
     test_voxel = voxel(strut_width, chamfer_factor, pitch)
     test_corner_node = corner_node(strut_width, chamfer_factor)
-    preview_mesh(test_voxel)
-    test_voxel.save('octet_test_voxel.stl')
+    test_lattice = make_lattice(strut_width, chamfer_factor, pitch, x, y, z)
+
+    preview_mesh(test_lattice)
+    test_lattice.save('octet_test_lattice.stl')
 
 
 if __name__ == "__main__":
