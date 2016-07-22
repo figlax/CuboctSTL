@@ -426,13 +426,14 @@ def corner(strut_width, chamfer_factor, pitch):
     point2sn = [halfp - hs, halfw, halfp - l_3]
     point3sn = [halfp - hs, 0, halfp - l_3]
 
+
     face_halfstrut_geo = np.zeros(6, dtype=mesh.Mesh.dtype)
     face_halfstrut_geo['vectors'][0] = np.array([point3, point3n, point2n])
     face_halfstrut_geo['vectors'][1] = np.array([point3, point2n, point2])
     face_halfstrut_geo['vectors'][2] = np.array([point2, point2n, point2sn])
     face_halfstrut_geo['vectors'][3] = np.array([point2, point2sn, point2s])
-    face_halfstrut_geo['vectors'][4] = np.array([point2s, point3s, point2sn])
-    face_halfstrut_geo['vectors'][5] = np.array([point3s, point3sn, point2sn])
+    face_halfstrut_geo['vectors'][4] = np.array([point2s, point2sn, point3s])
+    face_halfstrut_geo['vectors'][5] = np.array([point3s, point2sn, point3sn])
     face_halfstrut = mesh.Mesh(face_halfstrut_geo)
 
     face_halfstrut2 = mesh.Mesh(face_halfstrut.data.copy())
@@ -741,7 +742,7 @@ def main():
     test_lattice = make_lattice(strut_width, chamfer_factor, pitch, x, y, z)
 
     preview_mesh(test_lattice)
-    test_lattice.save('octet_test_lattice.stl')
+    test_voxel.save('octet_test_voxel.stl')
 
 
 if __name__ == "__main__":
