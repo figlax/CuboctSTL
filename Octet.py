@@ -731,9 +731,9 @@ def main():
     pitch = 10
     strut_width = 0.6
     chamfer_factor = 3
-    x = 3
-    y = 3
-    z = 3
+    x = 10
+    y = 10
+    z = 10
 
     test_corner = corner(strut_width, chamfer_factor, pitch)
     test_node = node(strut_width, chamfer_factor)
@@ -742,7 +742,7 @@ def main():
     test_lattice = make_lattice(strut_width, chamfer_factor, pitch, x, y, z)
 
     preview_mesh(test_lattice)
-    test_voxel.save('octet_test_voxel.stl')
+    test_lattice.save('Octet_10x10y10z_p10_sw0-6_cf3.stl')
 
 
 if __name__ == "__main__":
