@@ -1,9 +1,14 @@
 from CuboctSTL_v0 import *
 
 def main():
+    """
+    This script generates the basic structure for a c(t) fracture specimen.
+    It will generally need to be repaired in post-processing
+    :return:
+    """
     pitch = 30
     strut_width = 2
-    chamfer_factor = 2.75
+    chamfer_factor = 5
     x=3
     y=3
     z=3

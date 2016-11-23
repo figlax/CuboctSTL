@@ -1,6 +1,9 @@
 from stl import mesh
 import math
 import numpy
+#EXPLANATION OF THIS SCRIPT:
+#This script is an example from the numpystl package
+
 
 # Create 3 faces of a cube
 data = numpy.zeros(6, dtype=mesh.Mesh.dtype)
