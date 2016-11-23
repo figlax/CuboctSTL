@@ -1831,14 +1831,37 @@ def create_test_template():
 
 def ct_template():
 
-    template = np.zeros((40, 20, 60), dtype=np.int)
+    template = np.zeros((25, 10, 25), dtype=np.int)
 
-    template[:, :, 0:10] = 1
-    template[0:4, :, 10:20] = 1
-    template[15:40, :, 10:20] = 1
-    template[:, :, 20:29] = 1
+    template[:, :, 0:12] = 1
+    template[15:25, :, 12] = 1
+    template[:, :, 13:25] = 1
+
 
     return template
+
+
+def hybrid_template():
+    x = 11
+    y = 11
+    z = 11
+
+    template = np.zeros((x, y, z), dtype=np.int)
+    template[:, :, :] = 1
+    template[1, :, :] = 2
+    template[3, :, :] = 2
+    template[5, :, :] = 2
+    template[7, :, :] = 2
+    template[9, :, :] = 2
+    template[:, 1, :] = 2
+    template[:, 3, :] = 2
+    template[:, 5, :] = 2
+    template[:, 7, :] = 2
+    template[:, 9, :] = 2
+
+
+    return template
+
 
 def compression_template():
     """
@@ -1907,18 +1930,38 @@ def pitch_from_relden(relden, cf, sw):
 
 
 def main():
-
-
+    # The following code is an example of using the hybrid structure code
     pitch = 30
-    sw = 0.6
-    cf = 3
-    chamheight = sw / cf
-    
+    strut_width = 2
+    chamfer_factor = 2.75
 
+    template = create_test_template()
 
+    one_voxel = voxel(strut_width, chamfer_factor, pitch)
+    two_voxel = hybrid_voxel(strut_width * 0.5, chamfer_factor, pitch, strut_width)
+    three_voxel = half_voxel(strut_width, chamfer_factor, pitch)
 
-    test_pitch = pitch_from_relden(0.030991, cf, sw)
-    print(test_pitch)
+    capmesh = cap_cuboct(strut_width, chamfer_factor)
+
+    # make the default capping geometry
+    cap_geo_top = mesh.Mesh(capmesh.data.copy())
+    cap_geo_top.rotate([1, 0, 0], math.radians(180))  # rotate so normal vectors correct
+    cap_geo_bottom = mesh.Mesh(capmesh.data.copy())
+    cap_geo_right = mesh.Mesh(capmesh.data.copy())
+    cap_geo_right.rotate([0, 1, 0], math.radians(90))
+    cap_geo_left = mesh.Mesh(capmesh.data.copy())
+    cap_geo_left.rotate([0, 1, 0], math.radians(270))
+    cap_geo_back = mesh.Mesh(capmesh.data.copy())
+    cap_geo_back.rotate([1, 0, 0], math.radians(270))
+    cap_geo_front = mesh.Mesh(capmesh.data.copy())
+    cap_geo_front.rotate([1, 0, 0], math.radians(90))
+
+    default_caps = [0, cap_geo_bottom, cap_geo_right, cap_geo_left, cap_geo_back, cap_geo_front]
+
+    hybrid_structure = hybrid_codedstructure(template, pitch, [one_voxel, two_voxel, three_voxel],
+                                             [capmesh, capmesh, default_caps])
+    hybrid_structure.save('hybrid_structure_test.stl')
+    preview_mesh(hybrid_structure)
 
 
 

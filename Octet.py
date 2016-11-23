@@ -727,22 +727,62 @@ def preview_mesh(*args):
     pyplot.show()
 
 
+def pitch_from_relden(relden, cf, sw):
+    """
+    This function calculates the pitch of octet of a given relative density, chamfer factor, and strut width.
+    :param relden: float. Desired relative density
+    :param cf: float. Chamfer factor of voxel
+    :param sw: float. strut width of voxel
+    :return: lattice pitch
+    """
+    chamheight = sw / cf
+    l_2 = sw / 2 + chamheight
+    l_3 = l_2 + sw * np.cos(math.radians(45))  # horizontal position of points
+    l_4 = np.sqrt(2) * (l_3 - sw / 2)
+    tan_theta = ((l_3 - l_2) / ((l_4 / 2) - (np.sqrt(2) * chamheight / 2)))
+    # v1 = 2 * sw * l_3 * l_3 * l_3 - sw * sw * sw / 2
+    v1 = ((4 * l_3 * l_3) - (sw * sw)) * 0.5 * sw
+    h = (l_4 / 2) * tan_theta
+    hs = chamheight * tan_theta * np.sqrt(2) / 2
+    v2 = np.sqrt(2) * chamheight * chamheight * sw
+    v3 = 4.0 * chamheight * chamheight * chamheight / 3.0
+    v4 = chamheight * (sw * sw + 4 * sw * (l_3 - sw / 2.0) + 2 * (l_3 - sw / 2) * (l_3 - sw / 2.0))
+    v5 = ((l_4 * l_4 * h) - (2 * (chamheight * chamheight * hs))) / 3  # v2 from cuboct code
+    v6 = 4 * sw * (0.5 * (l_3 - l_2) * (l_3 - l_2) + (l_3 - l_2) * chamheight)  # v3 from cuboct code
+    v7 = sw * sw * (l_3 - l_2)  # v4 from cuboct code
+    node_volume = v1 + (v2 + v3 + v4) + v5 + v6 + v7
+
+    c1 = relden
+    c2 = (-12) * np.sqrt(2)*sw *sw
+    c3 = -8*node_volume + 24*sw*sw*np.sqrt(2)*(l_2 + l_3)
+    return max(np.roots([c1, 0, c2, c3]))
+
+
 def main():
-    pitch = 10
-    strut_width = 0.6
-    chamfer_factor = 3
+    pitch = 6.04
+    sw = 0.6
+    cf = 3.0
     x = 10
     y = 10
     z = 10
+    rd = 0.1
+    # test_cap = cap(strut_width, chamfer_factor, pitch)
+    # test_corner = corner(strut_width, chamfer_factor, pitch)
+    test_node = node(sw, cf)
+    # test_voxel = voxel(strut_width, chamfer_factor, pitch)
+    # test_corner_node = corner_node(strut_width, chamfer_factor)
 
-    test_corner = corner(strut_width, chamfer_factor, pitch)
-    test_node = node(strut_width, chamfer_factor)
-    test_voxel = voxel(strut_width, chamfer_factor, pitch)
-    test_corner_node = corner_node(strut_width, chamfer_factor)
-    test_lattice = make_lattice(strut_width, chamfer_factor, pitch, x, y, z)
 
-    preview_mesh(test_lattice)
-    test_lattice.save('Octet_10x10y10z_p10_sw0-6_cf3.stl')
+    testpitch = pitch_from_relden(rd, cf, sw)
+    print testpitch
+    test_lattice = make_lattice(sw, cf, testpitch, x, y, z)
+
+
+    test_lattice.save('Octet_10x10y10z_sw0-6_rd0-1_cf3-0.stl')
+    test_node.save('test_octet_closed_node.stl')
+
+
+    #preview_mesh(test_cap)
 
 
 if __name__ == "__main__":
