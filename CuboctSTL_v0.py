@@ -1928,6 +1928,48 @@ def pitch_from_relden(relden, cf, sw):
     c3 = -6*node_volume + 12*sw*sw*np.sqrt(2)*(l_2 + l_3)
     return max(np.roots([c1, 0, c2, c3]))
 
+def generate_file_name(sw, cf, x, y, z, pitch, rd='none', half='no', extra_text=""):
+    """
+    This function returns a file name that describes the lattice. Periods in decimals ( "." are replaced by "-".
+    Only input rd if the pitch was generated from a relative density. If this is the case, put the input for pitch
+    should be the generated pitch.
+    :param sw: lattice strut width
+    :param cf: lattice chamfer factor
+    :param x: number of x voxels
+    :param y: number of y voxels
+    :param z: number of z voxels
+    :param pitch: lattice pitch
+    :param rd: lattice relative density. Only enter if specified relative density was used to generate the pitch
+    :param half: boolean 'yes' or 'no' . Describes whether half-plane of voxels is on top and bottom
+    :param extra_text: extra text to be appended to end of file name after an underscore
+    :return: string file name
+    """
+    sw_str = str(sw).replace(".", "-")
+    cf_str = str(cf).replace(".", "-")
+    x_str = str(x).replace(".", "-")
+    y_str = str(y).replace(".", "-")
+    z_str = str(z).replace(".", "-")
+    pitch_str = str(float("{0:.2f}".format(pitch))).replace(".", "-")
+    if extra_text is not "":
+        extra_text = "_" + extra_text
+    if half is 'no':
+        half_str = ""
+    else:
+        half_str = "-half"
+    if rd is not 'none':
+        rd_str = "_rd"+str(rd).replace(".", "-")
+    else:
+        rd_str = ""
+
+    print("Auto-generated file name:")
+    print (
+        "Cuboct_%sx%sy%sz_sw%s_cf%s_p%s%s%s%s.stl" % (
+x_str, y_str, z_str, sw_str, cf_str, pitch_str, rd_str, half_str, extra_text))
+    return (
+        "Cuboct_%sx%sy%sz_sw%s_cf%s_p%s%s%s%s.stl" % (
+            x_str, y_str, z_str, sw_str, cf_str, pitch_str, rd_str, half_str, extra_text))
+
+
 
 def main():
     # The following code is an example of using the hybrid structure code

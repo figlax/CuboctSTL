@@ -20,23 +20,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file leaf-file-name="CuboctSTL_v0.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CuboctSTL_v0.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4411">
-              <caret line="1656" column="76" lean-forward="false" selection-start-line="1656" selection-start-column="76" selection-end-line="1656" selection-end-column="76" />
+            <state relative-caret-position="873">
+              <caret line="1969" column="90" lean-forward="false" selection-start-line="1964" selection-start-column="4" selection-end-line="1969" selection-end-column="90" />
               <folding>
-                <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+                <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Example.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Example.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Example.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="5" column="60" lean-forward="false" selection-start-line="5" selection-start-column="60" selection-end-line="5" selection-end-column="60" />
+            <state relative-caret-position="920">
+              <caret line="23" column="10" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CompressionSpecimen_Generator.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CompressionSpecimen_Generator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HeterogeneousStructureGenerator.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HeterogeneousStructureGenerator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="46" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -45,18 +65,8 @@
       <file leaf-file-name="Fracture_Generation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Fracture_Generation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dschwarzmesh.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Documents/Ames/CSL/Cuboct/latticegen/dschwarzmesh.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1273">
-              <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+            <state relative-caret-position="840">
+              <caret line="21" column="11" lean-forward="false" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -83,19 +93,21 @@
         <option value="$PROJECT_DIR$/CuboctSTL.py" />
         <option value="$PROJECT_DIR$/test_voxelfix.py" />
         <option value="$PROJECT_DIR$/Octet.py" />
-        <option value="$PROJECT_DIR$/CuboctSTL_v0.py" />
         <option value="$PROJECT_DIR$/Testing.py" />
-        <option value="$PROJECT_DIR$/Fracture_Generation.py" />
-        <option value="$PROJECT_DIR$/Example.py" />
         <option value="$PROJECT_DIR$/Test.py" />
+        <option value="$PROJECT_DIR$/Fracture_Generation.py" />
+        <option value="$PROJECT_DIR$/HeterogeneousStructureGenerator.py" />
+        <option value="$PROJECT_DIR$/Example.py" />
+        <option value="$PROJECT_DIR$/CuboctSTL_v0.py" />
+        <option value="$PROJECT_DIR$/CompressionSpecimen_Generator.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-3853" />
-    <option name="y" value="-13" />
-    <option name="width" value="3866" />
-    <option name="height" value="2106" />
+    <option name="x" value="-12" />
+    <option name="y" value="-12" />
+    <option name="width" value="3224" />
+    <option name="height" value="1754" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -113,7 +125,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -142,47 +153,14 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../OctetSTL" />
   </component>
-  <component name="RunManager" selected="Python.Fracture_Generation">
-    <configuration default="false" name="CuboctSTL (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CuboctSTL" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CuboctSTL.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Octet" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="CuboctSTL" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Octet.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.CompressionSpecimen_Generator">
     <configuration default="false" name="Fracture_Generation" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -230,6 +208,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="CuboctSTL" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Testing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="HeterogeneousStructureGenerator" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CuboctSTL" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/HeterogeneousStructureGenerator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="CompressionSpecimen_Generator" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="CuboctSTL" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CompressionSpecimen_Generator.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -423,19 +435,19 @@
       <item index="0" class="java.lang.String" itemvalue="Python.CuboctSTL" />
       <item index="1" class="java.lang.String" itemvalue="Python.Test" />
       <item index="2" class="java.lang.String" itemvalue="Python.CuboctSTL_v0" />
-      <item index="3" class="java.lang.String" itemvalue="Python.CuboctSTL (1)" />
-      <item index="4" class="java.lang.String" itemvalue="Python.Octet" />
-      <item index="5" class="java.lang.String" itemvalue="Python.Fracture_Generation" />
-      <item index="6" class="java.lang.String" itemvalue="Python.Example" />
-      <item index="7" class="java.lang.String" itemvalue="Python.Testing" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Fracture_Generation" />
+      <item index="4" class="java.lang.String" itemvalue="Python.Example" />
+      <item index="5" class="java.lang.String" itemvalue="Python.Testing" />
+      <item index="6" class="java.lang.String" itemvalue="Python.HeterogeneousStructureGenerator" />
+      <item index="7" class="java.lang.String" itemvalue="Python.CompressionSpecimen_Generator" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.Fracture_Generation" />
-        <item index="1" class="java.lang.String" itemvalue="Python.Testing" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Example" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Octet" />
-        <item index="4" class="java.lang.String" itemvalue="Python.CuboctSTL (1)" />
+        <item index="0" class="java.lang.String" itemvalue="Python.CompressionSpecimen_Generator" />
+        <item index="1" class="java.lang.String" itemvalue="Python.HeterogeneousStructureGenerator" />
+        <item index="2" class="java.lang.String" itemvalue="Python.Fracture_Generation" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Testing" />
+        <item index="4" class="java.lang.String" itemvalue="Python.Example" />
       </list>
     </recent_temporary>
   </component>
@@ -465,16 +477,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-3853" y="-13" width="3866" height="2106" extended-state="6" />
+    <frame x="-12" y="-12" width="3224" height="1754" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20026042" sideWeight="0.4500805" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1665625" sideWeight="0.4500805" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22665535" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2162453" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23745278" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19114584" sideWeight="0.76328504" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23740053" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1909375" sideWeight="0.76328504" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14960937" sideWeight="0.23671497" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -532,17 +544,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Documents/Ames/CSL/Cuboct/latticegen/Test.py" />
-    <entry file="file://$USER_HOME$/Documents/Ames/CSL/Cuboct/latticegen/d_schwarz.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1323">
-          <caret line="49" column="4" lean-forward="false" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#20#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Documents/GitHub/AbaqusKagomeGenerator/kagome.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -555,7 +556,7 @@
         <state relative-caret-position="108">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
           </folding>
         </state>
       </provider>
@@ -590,7 +591,7 @@
         <state relative-caret-position="108">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
           </folding>
         </state>
       </provider>
@@ -625,7 +626,7 @@
         <state relative-caret-position="81">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
           </folding>
         </state>
       </provider>
@@ -660,7 +661,7 @@
         <state relative-caret-position="54">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
           </folding>
         </state>
       </provider>
@@ -695,7 +696,7 @@
         <state relative-caret-position="54">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
           </folding>
         </state>
       </provider>
@@ -730,7 +731,7 @@
         <state relative-caret-position="54">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
           </folding>
         </state>
       </provider>
@@ -818,17 +819,8 @@
     <entry file="file://$PROJECT_DIR$/Octet.py" />
     <entry file="file://$USER_HOME$/Documents/Ames/CSL/Cuboct/latticegen/dschwarzmesh.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1273">
+        <state relative-caret-position="7880">
           <caret line="201" column="0" lean-forward="false" selection-start-line="201" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Fracture_Generation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -836,41 +828,56 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
           <caret line="13" column="4" lean-forward="false" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="48" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4411">
-          <caret line="1656" column="76" lean-forward="false" selection-start-line="1656" selection-start-column="76" selection-end-line="1656" selection-end-column="76" />
-          <folding>
-            <marker date="1479934452362" expanded="true" signature="20689:20905" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.py" />
     <entry file="file://$PROJECT_DIR$/test_voxelfix.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-12247">
           <caret line="1581" column="31" lean-forward="false" selection-start-line="1581" selection-start-column="31" selection-end-line="1581" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fracture_Generation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="21" column="11" lean-forward="false" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HeterogeneousStructureGenerator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="46" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Example.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="5" column="60" lean-forward="false" selection-start-line="5" selection-start-column="60" selection-end-line="5" selection-end-column="60" />
+        <state relative-caret-position="920">
+          <caret line="23" column="10" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="23" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CompressionSpecimen_Generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CuboctSTL_v0.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="873">
+          <caret line="1969" column="90" lean-forward="false" selection-start-line="1964" selection-start-column="4" selection-end-line="1969" selection-end-column="90" />
+          <folding>
+            <marker date="1484182566150" expanded="true" signature="20689:20905" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

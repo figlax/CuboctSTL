@@ -15,9 +15,14 @@ def ct_template2():
     return template
 
 def main():
+    """
+        This script generates the basic structure for a c(t) fracture specimen.
+        It will generally need to be repaired in post-processing
+        :return:
+        """
     pitch = 6.04
     sw = 0.6
-    cf = 3
+    cf = 5
 
 
     one_voxel = voxel(sw, cf, pitch)
