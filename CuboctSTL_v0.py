@@ -1102,7 +1102,7 @@ def arraypolar(m_obj, r_axis, num, rotation_point=None):
     array_objects = list()
     for i in range(num):
         obj = mesh.Mesh(m_obj.data.copy())
-        obj.rotate(r_axis, math.radians((360 / num) * i), rotation_point)
+        obj.rotate(r_axis, math.radians((360 / float(num)) * i), rotation_point)
         array_objects.append(obj)
     return array_objects
 
