@@ -118,13 +118,13 @@ def half_voxel(strut_width, chamfer_factor, pitch):
     # Define connection points on bottom node
     # Geometry Parameters
     # Calculate commonly used values for geometry definition
-    chamheight = strut_width / chamfer_factor
-    half_w = strut_width / 2
-    halfp = pitch / 2
-    h = chamheight + (strut_width * np.sin(np.pi / 4) + strut_width / 2)  # height of top cap
+    chamheight = float(strut_width) / chamfer_factor
+    half_w = strut_width / 2.0
+    halfp = pitch / 2.0
+    h = chamheight + (strut_width * np.sin(np.pi / 4.0) + half_w)  # height of top cap
     l_2 = strut_width / 2 + chamheight  # horizontal position of points on topcap
     hs = l_2  # height of side points of node
-    l_3 = l_2 + strut_width * np.cos(np.pi / 4)  # horizontal position of points
+    l_3 = l_2 + strut_width * np.cos(np.pi / 4.0)  # horizontal position of points
 
     # new points to attach to on side node
     point2nc = [halfp - h, half_w, halfp + l_2]
@@ -242,10 +242,10 @@ def cap_cuboct(strutwidth, chamfactor):
     """
 
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth / chamfactor
-    halfw = strutwidth / 2
-    l_2 = strutwidth / 2 + chamheight
-    l_3 = l_2 + strutwidth * np.cos(np.pi / 4)  # horizontal position of points
+    chamheight = float(strutwidth) / chamfactor
+    halfw = strutwidth / 2.0
+    l_2 = strutwidth / 2.0 + chamheight
+    l_3 = l_2 + strutwidth * np.cos(np.pi / 4.0)  # horizontal position of points
 
     # Make the bottom cap (to make closed node in voxel)
     bottomcap = np.zeros(6, dtype=mesh.Mesh.dtype)
@@ -302,8 +302,8 @@ def box_cap(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     # rotate and translate cap geometry
     cap_geo_left = mesh.Mesh(cap_geo.data.copy())
     cap_geo_left.rotate([0, 1, 0], math.radians(270))
-    translate(cap_geo_left, np.array([-1, 0, 0]) * pitch / 2)
-    translate(cap_geo_left, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_left, np.array([-1, 0, 0]) * pitch / 2.0)
+    translate(cap_geo_left, np.array([0, 0, 1]) * pitch / 2.0)
     left_side_caps = rec_array(cap_geo_left, y, z, [0, 1, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += left_side_caps
 
@@ -311,16 +311,16 @@ def box_cap(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     cap_geo_right = mesh.Mesh(cap_geo.data.copy())
     cap_geo_right.rotate([0, 1, 0], math.radians(90))
     translate(cap_geo_right, np.array([1, 0, 0]) * pitch * x)
-    translate(cap_geo_right, np.array([0, 0, 1]) * pitch / 2)
-    translate(cap_geo_right, np.array([-1, 0, 0]) * pitch / 2)
+    translate(cap_geo_right, np.array([0, 0, 1]) * pitch / 2.0)
+    translate(cap_geo_right, np.array([-1, 0, 0]) * pitch / 2.0)
     right_side_caps = rec_array(cap_geo_right, y, z, [0, 1, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += right_side_caps
 
     # --------cap front (negY) ------------
     cap_geo_front = mesh.Mesh(cap_geo.data.copy())
     cap_geo_front.rotate([1, 0, 0], math.radians(90))
-    translate(cap_geo_front, np.array([0, -1, 0]) * pitch / 2)
-    translate(cap_geo_front, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_front, np.array([0, -1, 0]) * pitch / 2.0)
+    translate(cap_geo_front, np.array([0, 0, 1]) * pitch / 2.0)
     front_caps = rec_array(cap_geo_front, x, z, [1, 0, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += front_caps
 
@@ -328,8 +328,8 @@ def box_cap(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     cap_geo_back = mesh.Mesh(cap_geo.data.copy())
     cap_geo_back.rotate([1, 0, 0], math.radians(270))
     translate(cap_geo_back, np.array([0, 1, 0]) * pitch * y)
-    translate(cap_geo_back, np.array([0, -1, 0]) * pitch / 2)
-    translate(cap_geo_back, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_back, np.array([0, -1, 0]) * pitch / 2.0)
+    translate(cap_geo_back, np.array([0, 0, 1]) * pitch / 2.0)
     back_caps = rec_array(cap_geo_back, x, z, [1, 0, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += back_caps
 
@@ -357,8 +357,8 @@ def box_cap_sides_only(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     # rotate and translate cap geometry
     cap_geo_left = mesh.Mesh(cap_geo.data.copy())
     cap_geo_left.rotate([0, 1, 0], math.radians(270))
-    translate(cap_geo_left, np.array([-1, 0, 0]) * pitch / 2)
-    #translate(cap_geo_left, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_left, np.array([-1, 0, 0]) * pitch / 2.0)
+    #translate(cap_geo_left, np.array([0, 0, 1]) * pitch / 2.0)
     left_side_caps = rec_array(cap_geo_left, y, z, [0, 1, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += left_side_caps
 
@@ -366,16 +366,16 @@ def box_cap_sides_only(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     cap_geo_right = mesh.Mesh(cap_geo.data.copy())
     cap_geo_right.rotate([0, 1, 0], math.radians(90))
     translate(cap_geo_right, np.array([1, 0, 0]) * pitch * x)
-    #translate(cap_geo_right, np.array([0, 0, 1]) * pitch / 2)
-    translate(cap_geo_right, np.array([-1, 0, 0]) * pitch / 2)
+    #translate(cap_geo_right, np.array([0, 0, 1]) * pitch / 2.0)
+    translate(cap_geo_right, np.array([-1, 0, 0]) * pitch / 2.0)
     right_side_caps = rec_array(cap_geo_right, y, z, [0, 1, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += right_side_caps
 
     # --------cap front (negY) ------------
     cap_geo_front = mesh.Mesh(cap_geo.data.copy())
     cap_geo_front.rotate([1, 0, 0], math.radians(90))
-    translate(cap_geo_front, np.array([0, -1, 0]) * pitch / 2)
-    #translate(cap_geo_front, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_front, np.array([0, -1, 0]) * pitch / 2.0)
+    #translate(cap_geo_front, np.array([0, 0, 1]) * pitch / 2.0)
     front_caps = rec_array(cap_geo_front, x, z, [1, 0, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += front_caps
 
@@ -383,8 +383,8 @@ def box_cap_sides_only(open_lattice, strutwidth, chamfactor, pitch, x, y, z):
     cap_geo_back = mesh.Mesh(cap_geo.data.copy())
     cap_geo_back.rotate([1, 0, 0], math.radians(270))
     translate(cap_geo_back, np.array([0, 1, 0]) * pitch * y)
-    translate(cap_geo_back, np.array([0, -1, 0]) * pitch / 2)
-    #translate(cap_geo_back, np.array([0, 0, 1]) * pitch / 2)
+    translate(cap_geo_back, np.array([0, -1, 0]) * pitch / 2.0)
+    #translate(cap_geo_back, np.array([0, 0, 1]) * pitch / 2.0)
     back_caps = rec_array(cap_geo_back, x, z, [1, 0, 0], [0, 0, 1], pitch, pitch)
     closed_lattice += back_caps
 
@@ -445,8 +445,8 @@ def node(strutwidth, chamfactor):
     """
 
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth/ chamfactor
-    halfw = strutwidth / 2
+    chamheight = float(strutwidth)/ chamfactor
+    halfw = strutwidth / 2.0
 
     # Define geometry of the top cap
     topcap = np.zeros(6, dtype=mesh.Mesh.dtype)
@@ -454,8 +454,8 @@ def node(strutwidth, chamfactor):
                                        #  [l_2, halfw, h],
                                         #[0, 0, h]])
     # Calculate the height and halflength of top octogonal cap
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2)
-    l_2 = strutwidth / 2 + chamheight
+    h = chamheight + (strutwidth * np.sin(np.pi / 4.0) + halfw)
+    l_2 = halfw + chamheight
     point1 = [halfw, l_2, h]
     point2 = [l_2, halfw, h]
     point3 = [l_2, -halfw, h]
@@ -477,7 +477,7 @@ def node(strutwidth, chamfactor):
     chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
 
     hs = l_2 # height of side points of node
-    l_3 = l_2 + strutwidth*np.cos(np.pi/4) # horizontal position of points
+    l_3 = l_2 + strutwidth*np.cos(np.pi/4.0) # horizontal position of points
     point1s = [halfw, l_3, hs]
     point2s = [l_3, halfw, hs]
     point3s = [l_3, -halfw, hs]
@@ -546,8 +546,8 @@ def capped_node(strutwidth, chamfactor):
     """
 
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth/ chamfactor
-    halfw = strutwidth / 2
+    chamheight = float(strutwidth)/ chamfactor
+    halfw = strutwidth / 2.0
 
     # Define geometry of the top cap
     topcap = np.zeros(6, dtype=mesh.Mesh.dtype)
@@ -555,8 +555,8 @@ def capped_node(strutwidth, chamfactor):
                                        #  [l_2, halfw, h],
                                         #[0, 0, h]])
     # Calculate the height and halflength of top octogonal cap
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2)
-    l_2 = strutwidth / 2 + chamheight
+    h = chamheight + (strutwidth * np.sin(np.pi / 4.0) + halfw)
+    l_2 = strutwidth / 2.0 + chamheight
     point1 = [halfw, l_2, h]
     point2 = [l_2, halfw, h]
     point3 = [l_2, -halfw, h]
@@ -579,7 +579,7 @@ def capped_node(strutwidth, chamfactor):
     chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
 
     hs = l_2 # height of side points of node
-    l_3 = l_2 + strutwidth*np.cos(np.pi/4) # horizontal position of points
+    l_3 = l_2 + strutwidth*np.cos(np.pi/4.0) # horizontal position of points
     point1s = [halfw, l_3, hs]
     point2s = [l_3, halfw, hs]
     point3s = [l_3, -halfw, hs]
@@ -658,8 +658,8 @@ def capped_node(strutwidth, chamfactor):
 
 def hybrid_node(strutwidth, chamfactor, max_strut_width_interface, closed=False):
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth / chamfactor
-    halfw = strutwidth / 2
+    chamheight = float(strutwidth) / chamfactor
+    halfw = strutwidth / 2.0
 
     # Define geometry of the top cap
     topcap = np.zeros(6, dtype=mesh.Mesh.dtype)
@@ -667,8 +667,8 @@ def hybrid_node(strutwidth, chamfactor, max_strut_width_interface, closed=False)
     #  [l_2, halfw, h],
     # [0, 0, h]])
     # Calculate the height and halflength of top octogonal cap
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2)
-    l_2 = strutwidth / 2 + chamheight
+    h = chamheight + (strutwidth * np.sin(np.pi / 4.0) + halfw)
+    l_2 = halfw + chamheight
     point1 = [halfw, l_2, h]
     point2 = [l_2, halfw, h]
     point3 = [l_2, -halfw, h]
@@ -690,7 +690,7 @@ def hybrid_node(strutwidth, chamfactor, max_strut_width_interface, closed=False)
     chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
 
     hs = l_2  # height of side points of node
-    l_3 = l_2 + strutwidth * np.cos(np.pi / 4)  # horizontal position of points
+    l_3 = l_2 + strutwidth * np.cos(np.pi / 4.0)  # horizontal position of points
     point1s = [halfw, l_3, hs]
     point2s = [l_3, halfw, hs]
     point3s = [l_3, -halfw, hs]
@@ -720,10 +720,10 @@ def hybrid_node(strutwidth, chamfactor, max_strut_width_interface, closed=False)
     chamfersides_mesh = mesh.Mesh(chamfersides)
 
     # Need to define geometry of base necessary to interface with other node
-    chamheight_max = max_strut_width_interface / chamfactor
-    halfw_max = max_strut_width_interface / 2
-    l_2_max = max_strut_width_interface / 2 + chamheight_max
-    l_3_max = l_2_max + max_strut_width_interface * np.cos(np.pi / 4)  # horizontal position of points
+    chamheight_max = max_strut_width_interface / float(chamfactor)
+    halfw_max = max_strut_width_interface / 2.0
+    l_2_max = max_strut_width_interface / 2.0 + chamheight_max
+    l_3_max = l_2_max + max_strut_width_interface * np.cos(np.pi / 4.0)  # horizontal position of points
 
 
 
@@ -766,8 +766,8 @@ def capped_node(strutwidth, chamfactor):
     """
 
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth / chamfactor
-    halfw = strutwidth / 2
+    chamheight = float(strutwidth) / chamfactor
+    halfw = strutwidth / 2.0
 
     # Define geometry of the top cap
     topcap = np.zeros(6, dtype=mesh.Mesh.dtype)
@@ -775,8 +775,8 @@ def capped_node(strutwidth, chamfactor):
     #  [l_2, halfw, h],
     # [0, 0, h]])
     # Calculate the height and halflength of top octogonal cap
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2)
-    l_2 = strutwidth / 2 + chamheight
+    h = chamheight + (strutwidth * np.sin(np.pi / 4.0) + halfw)
+    l_2 = halfw + chamheight
     point1 = [halfw, l_2, h]
     point2 = [l_2, halfw, h]
     point3 = [l_2, -halfw, h]
@@ -799,7 +799,7 @@ def capped_node(strutwidth, chamfactor):
     chamfersides = np.zeros(8, dtype=mesh.Mesh.dtype)
 
     hs = l_2  # height of side points of node
-    l_3 = l_2 + strutwidth * np.cos(np.pi / 4)  # horizontal position of points
+    l_3 = l_2 + strutwidth * np.cos(np.pi / 4.0)  # horizontal position of points
     point1s = [halfw, l_3, hs]
     point2s = [l_3, halfw, hs]
     point3s = [l_3, -halfw, hs]
@@ -888,13 +888,13 @@ def strut(strutwidth, chamfactor,  pitch):
     # Define connection points on bottom node
     # Geometry Parameters
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth / chamfactor
-    halfw = strutwidth / 2
-    halfp = pitch / 2
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2) # height of top cap
-    l_2 = strutwidth / 2 + chamheight # horizontal position of points on topcap
+    chamheight = float(strutwidth) / chamfactor
+    halfw = strutwidth / 2.0
+    halfp = pitch / 2.0
+    h = chamheight + (strutwidth * np.sin(np.pi / 4.0) + strutwidth / 2.0) # height of top cap
+    l_2 = strutwidth / 2.0 + chamheight # horizontal position of points on topcap
     hs = l_2  # height of side points of node
-    l_3 = l_2 + strutwidth * np.cos(np.pi / 4)  # horizontal position of points
+    l_3 = l_2 + strutwidth * np.cos(np.pi / 4.0)  # horizontal position of points
 
     point2_copy = [l_2, halfw, h]
     point3_copy = [l_2, -halfw, h]
@@ -936,24 +936,24 @@ def side_strut(strutwidth, chamfactor,  pitch):
     # Define connection points on bottom node
     # Geometry Parameters
     # Calculate commonly used values for geometry definition
-    chamheight = strutwidth / chamfactor
-    halfw = strutwidth / 2
-    halfp = pitch / 2
-    h = chamheight + (strutwidth * np.sin(np.pi / 4) + strutwidth / 2) # height of top cap
-    l_2 = strutwidth / 2 + chamheight # horizontal position of points on topcap
+    chamheight = float(strutwidth) / chamfactor
+    halfw = strutwidth / 2.0
+    halfp = pitch / 2.0
+    h = chamheight + (strutwidth * np.sin(np.pi / 4.0) + halfw) # height of top cap
+    l_2 = halfw + chamheight # horizontal position of points on topcap
     hs = l_2  # height of side points of node
-    l_3 = l_2 + strutwidth * np.cos(np.pi / 4)  # horizontal position of points
+    l_3 = l_2 + strutwidth * np.cos(np.pi / 4.0)  # horizontal position of points
 
     # translate the points we need down half a pitch
-    point2_copy = [l_2, halfw, h - pitch/2]
-    point3_copy = [l_2, -halfw, h - pitch/2]
-    point2s_copy = [l_3, halfw, hs - pitch/2]
-    point3s_copy = [l_3, -halfw, hs - pitch/2]
+    point2_copy = [l_2, halfw, h - halfp]
+    point3_copy = [l_2, -halfw, h - halfp]
+    point2s_copy = [l_3, halfw, hs - halfp]
+    point3s_copy = [l_3, -halfw, hs - halfp]
     # new points to attach to on side node
-    point2n = [halfp-h, halfw, halfp - l_2 - pitch/2]
-    point3n = [halfp-h, -halfw, halfp - l_2 - pitch/2]
-    point2sn = [halfp-hs, halfw, halfp - l_3 - pitch/2]
-    point3sn = [halfp-hs, -halfw, halfp - l_3 - pitch/2]
+    point2n = [halfp-h, halfw, halfp - l_2 - halfp]
+    point3n = [halfp-h, -halfw, halfp - l_2 - halfp]
+    point2sn = [halfp-hs, halfw, halfp - l_3 - halfp]
+    point3sn = [halfp-hs, -halfw, halfp - l_3 - halfp]
 
     # rotate all those points 90 degrees about the x axis. [ x, y, z] --> [ x, -z, y]
 
@@ -979,7 +979,7 @@ def side_strut(strutwidth, chamfactor,  pitch):
     singlestrut_geo['vectors'][7] = np.array([point2s_rotated, point3sn_rotated, point3s_rotated])
 
     # Move the strut back to side height
-    singlestrut_geo['vectors'] += [0, 0, pitch/2]
+    singlestrut_geo['vectors'] += [0, 0, halfp]
 
     finalsinglestrut = mesh.Mesh(singlestrut_geo)
 
@@ -1246,7 +1246,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                                 # place a cap on the right
                                 cap_geo_right = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_right.rotate([0, 1, 0], math.radians(90))
-                                place_object(cap_geo_right, pitch * i + pitch/2, pitch * j, pitch * k + pitch/2 )
+                                place_object(cap_geo_right, pitch * i + pitch/2.0, pitch * j, pitch * k + pitch/2.0 )
                                 lattice += [cap_geo_right]
                         elif template[i + 1, j, k] == 1:
                             flag = 1
@@ -1257,7 +1257,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                             # You are on the edge, so place a cap
                             cap_geo_right = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_right.rotate([0, 1, 0], math.radians(90))
-                            place_object(cap_geo_right, pitch * i + pitch / 2, pitch * j, pitch * k + pitch / 2)
+                            place_object(cap_geo_right, pitch * i + pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                             lattice += [cap_geo_right]
 
                     # ----------check left (negative X)---------
@@ -1267,7 +1267,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                                 # place a cap on the right
                                 cap_geo_left = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_left.rotate([0, 1, 0], math.radians(270))
-                                place_object(cap_geo_left, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                place_object(cap_geo_left, pitch * i - pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                                 lattice += [cap_geo_left]
                         elif template[i - 1, j, k] == 1:
                             flag = 1
@@ -1278,7 +1278,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                             # You are on the edge, so place a cap
                             cap_geo_left = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_left.rotate([0, 1, 0], math.radians(270))
-                            place_object(cap_geo_left, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                            place_object(cap_geo_left, pitch * i - pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                             lattice += [cap_geo_left]
 
                     # ----------check back (positive Y)---------
@@ -1288,7 +1288,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                                 # place a cap on the right
                                 cap_geo_back = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_back.rotate([1, 0, 0], math.radians(270))
-                                place_object(cap_geo_back, pitch * i, pitch * j + pitch/2, pitch * k + pitch / 2)
+                                place_object(cap_geo_back, pitch * i, pitch * j + pitch/2.0, pitch * k + pitch / 2.0)
                                 lattice += [cap_geo_back]
                         elif template[i, j+1, k] == 1:
                             flag = 1
@@ -1299,7 +1299,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                             # You are on the edge, so place a cap
                             cap_geo_back = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_back.rotate([1, 0, 0], math.radians(270))
-                            place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2, pitch * k + pitch / 2)
+                            place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2.0, pitch * k + pitch / 2.0)
                             lattice += [cap_geo_back]
 
                     # check front (negative Y)
@@ -1309,7 +1309,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                                 # place a cap on the right
                                 cap_geo_front = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_front.rotate([1, 0, 0], math.radians(90))
-                                place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                                place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2.0, pitch * k + pitch / 2.0)
                                 lattice += [cap_geo_front]
                         elif template[i, j-1, k] == 1:
                             flag = 1
@@ -1321,7 +1321,7 @@ def lattice_codedstructure(voxel_mesh, cap_mesh, pitch, template, closed=True):
                             # You are on the edge, so place a cap
                             cap_geo_front = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_front.rotate([1, 0, 0], math.radians(90))
-                            place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                            place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2.0, pitch * k + pitch / 2.0)
                             lattice += [cap_geo_front]
 
                     # If the flag wasn't thrown, this voxel doesn't have any connectivity. Show an error
@@ -1466,7 +1466,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                                 # place a cap on the right
                                 cap_geo_right = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_right.rotate([0, 1, 0], math.radians(90))
-                                place_object(cap_geo_right, pitch * i + pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                place_object(cap_geo_right, pitch * i + pitch / 2., pitch * j, pitch * k + pitch / 2.)
                                 lattice += [cap_geo_right]
                         elif template[i+1, j, k] in codes:  # if a valid voxel code (there is a voxel there)
                             flag = 1
@@ -1478,7 +1478,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                             # You are on the edge, so place a cap
                             cap_geo_right = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_right.rotate([0, 1, 0], math.radians(90))
-                            place_object(cap_geo_right, pitch * i + pitch / 2, pitch * j, pitch * k + pitch / 2)
+                            place_object(cap_geo_right, pitch * i + pitch / 2., pitch * j, pitch * k + pitch / 2.)
                             lattice += [cap_geo_right]
 
                     # ----------check left (negative X)---------
@@ -1488,7 +1488,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                                 # place a cap on the right
                                 cap_geo_left = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_left.rotate([0, 1, 0], math.radians(270))
-                                place_object(cap_geo_left, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                place_object(cap_geo_left, pitch * i - pitch / 2., pitch * j, pitch * k + pitch / 2.)
                                 lattice += [cap_geo_left]
                         elif template[i - 1, j, k] in codes:
                             flag = 1
@@ -1500,7 +1500,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                             # You are on the edge, so place a cap
                             cap_geo_left = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_left.rotate([0, 1, 0], math.radians(270))
-                            place_object(cap_geo_left, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                            place_object(cap_geo_left, pitch * i - pitch / 2., pitch * j, pitch * k + pitch / 2.)
                             lattice += [cap_geo_left]
 
                     # ----------check back (positive Y)---------
@@ -1510,7 +1510,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                                 # place a cap on the right
                                 cap_geo_back = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_back.rotate([1, 0, 0], math.radians(270))
-                                place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2, pitch * k + pitch / 2)
+                                place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2., pitch * k + pitch / 2.)
                                 lattice += [cap_geo_back]
                         elif template[i, j + 1, k] in codes:
                             flag = 1
@@ -1522,7 +1522,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                             # You are on the edge, so place a cap
                             cap_geo_back = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_back.rotate([1, 0, 0], math.radians(270))
-                            place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2, pitch * k + pitch / 2)
+                            place_object(cap_geo_back, pitch * i, pitch * j + pitch / 2., pitch * k + pitch / 2.)
                             lattice += [cap_geo_back]
 
                     # check front (negative Y)
@@ -1532,7 +1532,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                                 # place a cap on the right
                                 cap_geo_front = mesh.Mesh(cap_mesh.data.copy())
                                 cap_geo_front.rotate([1, 0, 0], math.radians(90))
-                                place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                                place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2., pitch * k + pitch / 2.)
                                 lattice += [cap_geo_front]
                         elif template[i, j - 1, k] in codes:
                             flag = 1
@@ -1545,7 +1545,7 @@ def hybrid_codedstructure_legacy(template, pitch, cap_mesh, voxel_meshes,  close
                             # You are on the edge, so place a cap
                             cap_geo_front = mesh.Mesh(cap_mesh.data.copy())
                             cap_geo_front.rotate([1, 0, 0], math.radians(90))
-                            place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                            place_object(cap_geo_front, pitch * i, pitch * j - pitch / 2., pitch * k + pitch / 2.)
                             lattice += [cap_geo_front]
 
                     # If the flag wasn't thrown, this voxel doesn't have any connectivity. Show an error
@@ -1717,7 +1717,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                                 # check if there is a specified cap geometry to place there
                                 if voxel_cap_geos[template[i, j, k] - 1][2] is not 0:
                                     cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][2].data.copy())
-                                    place_object(cap, pitch * i + pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                    place_object(cap, pitch * i + pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                                     lattice += [cap]
                         elif template[i+1, j, k] in codes:  # if a valid voxel code (there is a voxel there)
                             flag = 1
@@ -1730,7 +1730,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                             # check if there is a specified cap geometry to place there
                             if voxel_cap_geos[template[i, j, k] - 1][2] is not 0:
                                 cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][2].data.copy())
-                                place_object(cap, pitch * i + pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                place_object(cap, pitch * i + pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                                 lattice += [cap]
 
                     # ----------check left (negative X)---------
@@ -1741,7 +1741,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                                 # check if there is a specified cap geometry to place there
                                 if voxel_cap_geos[template[i, j, k] - 1][3] is not 0:
                                     cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][3].data.copy())
-                                    place_object(cap, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                    place_object(cap, pitch * i - pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                                     lattice += [cap]
                         elif template[i - 1, j, k] in codes:
                             flag = 1
@@ -1754,7 +1754,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                             # check if there is a specified cap geometry to place there
                             if voxel_cap_geos[template[i, j, k] - 1][3] is not 0:
                                 cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][3].data.copy())
-                                place_object(cap, pitch * i - pitch / 2, pitch * j, pitch * k + pitch / 2)
+                                place_object(cap, pitch * i - pitch / 2.0, pitch * j, pitch * k + pitch / 2.0)
                                 lattice += [cap]
 
                     # ----------check back (positive Y)---------
@@ -1765,7 +1765,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                                 # check if there is a specified cap geometry to place there
                                 if voxel_cap_geos[template[i, j, k] - 1][4] is not 0:
                                     cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][4].data.copy())
-                                    place_object(cap, pitch * i, pitch * j + pitch / 2, pitch * k + pitch / 2)
+                                    place_object(cap, pitch * i, pitch * j + pitch / 2.0, pitch * k + pitch / 2.0)
                                     lattice += [cap]
                         elif template[i, j + 1, k] in codes:
                             flag = 1
@@ -1778,7 +1778,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                             # check if there is a specified cap geometry to place there
                             if voxel_cap_geos[template[i, j, k] - 1][4] is not 0:
                                 cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][4].data.copy())
-                                place_object(cap, pitch * i, pitch * j + pitch / 2, pitch * k + pitch / 2)
+                                place_object(cap, pitch * i, pitch * j + pitch / 2.0, pitch * k + pitch / 2.0)
                                 lattice += [cap]
 
                     # -----------check front (negative Y)---------------
@@ -1789,7 +1789,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                                 # check if there is a specified cap geometry to place there
                                 if voxel_cap_geos[template[i, j, k] - 1][5] is not 0:
                                     cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][5].data.copy())
-                                    place_object(cap, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                                    place_object(cap, pitch * i, pitch * j - pitch / 2.0, pitch * k + pitch / 2.0)
                                     lattice += [cap]
                         elif template[i, j - 1, k] in codes:
                             flag = 1
@@ -1803,7 +1803,7 @@ def hybrid_codedstructure(template, pitch, voxel_meshes, voxel_cap_geos,  closed
                             # check if there is a specified cap geometry to place there
                             if voxel_cap_geos[template[i, j, k] - 1][5] is not 0:
                                 cap = mesh.Mesh(voxel_cap_geos[template[i, j, k] - 1][5].data.copy())
-                                place_object(cap, pitch * i, pitch * j - pitch / 2, pitch * k + pitch / 2)
+                                place_object(cap, pitch * i, pitch * j - pitch / 2.0, pitch * k + pitch / 2.0)
                                 lattice += [cap]
 
                     # If the flag wasn't thrown, this voxel doesn't have any connectivity. Show an error
@@ -1910,15 +1910,15 @@ def pitch_from_relden(relden, cf, sw):
     :param sw: float. strut width of voxel
     :return: lattice pitch
     """
-    chamheight = sw / cf
-    l_2 = sw / 2 + chamheight
+    chamheight = float(sw) / cf
+    l_2 = sw / 2.0 + chamheight
     l_3 = l_2 + sw * np.cos(math.radians(45))  # horizontal position of points
-    l_4 = np.sqrt(2) * (l_3 - sw / 2)
-    tan_theta = ((l_3 - l_2) / ((l_4 / 2) - (np.sqrt(2) * chamheight / 2)))
-    v1 = l_2 * (sw * sw + 4 * sw * (l_3 - sw / 2) + 2 * (l_3 - sw / 2) * (l_3 - sw / 2))
-    h = (l_4 / 2) * tan_theta
-    hs = chamheight * tan_theta * np.sqrt(2) / 2
-    v2 = ((l_4 * l_4 * h) - (2 * (chamheight * chamheight * hs))) / 3
+    l_4 = np.sqrt(2) * (l_3 - sw / 2.0)
+    tan_theta = ((l_3 - l_2) / ((l_4 / 2.0) - (np.sqrt(2) * chamheight / 2.0)))
+    v1 = l_2 * (sw * sw + 4 * sw * (l_3 - sw / 2.0) + 2 * (l_3 - sw / 2.0) * (l_3 - sw / 2.0))
+    h = (l_4 / 2.0) * tan_theta
+    hs = chamheight * tan_theta * np.sqrt(2) / 2.0
+    v2 = ((l_4 * l_4 * h) - (2 * (chamheight * chamheight * hs))) / 3.0
     v3 = 4 * sw * (0.5 * (l_3 - l_2) * (l_3 - l_2) + (l_3 - l_2) * chamheight)
     v4 = sw * sw * (l_3 - l_2)
     node_volume = v1 + v2 + v3 + v4
@@ -1969,6 +1969,37 @@ x_str, y_str, z_str, sw_str, cf_str, pitch_str, rd_str, half_str, extra_text))
         "Cuboct_%sx%sy%sz_sw%s_cf%s_p%s%s%s%s.stl" % (
             x_str, y_str, z_str, sw_str, cf_str, pitch_str, rd_str, half_str, extra_text))
 
+def generate_ct_file_name(sw, cf, pitch, rd='none', extra_text=""):
+    """
+    This function returns a file name that describes a lattice compact tension specimen (ct). Periods in decimals ( "." are replaced by "-".
+    Only input rd if the pitch was generated from a relative density. If this is the case, put the input for pitch
+    should be the generated pitch.
+    :param sw: lattice strut width
+    :param cf: lattice chamfer factor
+    :param x: number of x voxels
+    :param y: number of y voxels
+    :param z: number of z voxels
+    :param pitch: lattice pitch
+    :param rd: lattice relative density. Only enter if specified relative density was used to generate the pitch
+    :param half: boolean 'yes' or 'no' . Describes whether half-plane of voxels is on top and bottom
+    :param extra_text: extra text to be appended to end of file name after an underscore
+    :return: string file name
+    """
+    sw_str = str(sw).replace(".", "-")
+    cf_str = str(cf).replace(".", "-")
+    pitch_str = str(float("{0:.2f}".format(pitch))).replace(".", "-")
+    if extra_text is not "":
+        extra_text = "_" + extra_text
+
+    if rd is not 'none':
+        rd_str = "_rd"+str(rd).replace(".", "-")
+    else:
+        rd_str = ""
+
+    print("Auto-generated file name:")
+    print (
+        "Cuboct-ct_sw%s_cf%s_p%s%s%s%s.stl" % (sw_str, cf_str, pitch_str, rd_str, extra_text, '_base'))
+    return ("Cuboct-ct_sw%s_cf%s_p%s%s%s%s.stl" % (sw_str, cf_str, pitch_str, rd_str, extra_text, '_base'))
 
 
 def main():
